@@ -1,0 +1,27 @@
+.site-footer {
+    border-top: 1px solid var(--color-border);
+    background: rgba(238, 247, 244, 0.6);
+}
+
+.site-footer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-10);
+    color: var(--color-celtech-700);
+    font-size: 0.875rem;
+}
+
+.site-footer__links {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+@media (min-width: 768px) {
+    .site-footer__inner {
+        flex-direction: row;
+    }
+}

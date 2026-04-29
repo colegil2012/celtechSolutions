@@ -1,0 +1,35 @@
+.links { max-width: 56rem; margin-inline: auto; }
+
+.links__lead { margin-top: var(--space-4); max-width: 38rem; }
+
+.links__grid {
+    margin-top: var(--space-12);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+.links__item-title {
+    font-weight: 600;
+    transition: color var(--transition-base);
+}
+
+.links__item:hover .links__item-title { color: var(--color-primary); }
+
+.links__item-desc {
+    margin-top: var(--space-1);
+    font-size: 0.875rem;
+    color: var(--color-muted);
+}
+
+.links__item-arrow {
+    color: var(--color-celtech-300);
+    transition: color var(--transition-base);
+    align-self: center;
+}
+
+.links__item:hover .links__item-arrow { color: var(--color-primary); }
+
+@media (min-width: 640px) {
+    .links__grid { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,7 @@
+.contact { max-width: 48rem; margin-inline: auto; }
+
+.contact__lead { margin-top: var(--space-4); }
+
+.contact__alert { margin-top: var(--space-8); }
+
+.contact__form { margin-top: var(--space-10); }

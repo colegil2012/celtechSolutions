@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Celtech Solutions | Links', ~{::pageStyles})}"></head>
+<th:block th:fragment="pageStyles">
+    <link rel="stylesheet" th:href="@{/css/pages/links.css}"/>
+</th:block>
+<body>
+
+<header th:replace="~{fragments/layout :: nav}"></header>
+
+<main class="container page links">
+    <p class="eyebrow" data-aos="fade-up">Links</p>
+    <h1 data-aos="fade-up">Where else to find us.</h1>
+    <p class="lead links__lead" data-aos="fade-up" data-aos-delay="100">
+        A handful of related projects, sites and resources from the Celtech family.
+    </p>
+
+    <ul class="links__grid">
+        <li data-aos="fade-up">
+            <a href="https://celtechgs.com" target="_blank" rel="noopener"
+               class="card card--link links__item">
+                <span class="icon-tile"><i data-lucide="globe"></i></span>
+                <span style="flex:1;">
+                    <span class="links__item-title">celtechgs.com</span>
+                    <span class="links__item-desc">Our parent company site.</span>
+                </span>
+                <i data-lucide="external-link" class="icon-inline links__item-arrow"></i>
+            </a>
+        </li>
+
+        <li data-aos="fade-up" data-aos-delay="100">
+            <div class="card card--link card--placeholder">
+                <span class="icon-tile"><i data-lucide="sparkles"></i></span>
+                <span style="flex:1;">
+                    <span class="links__item-title">More coming soon</span>
+                    <span class="links__item-desc">New projects and case studies are on the way.</span>
+                </span>
+            </div>
+        </li>
+    </ul>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

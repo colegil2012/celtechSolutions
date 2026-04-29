@@ -1,0 +1,21 @@
+.alert {
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    border: 1px solid transparent;
+    font-size: 0.95rem;
+}
+
+.alert--success {
+    background: var(--color-success-bg);
+    border-color: var(--color-success-border);
+    color: var(--color-success-fg);
+}
+
+.alert__title {
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+}
+
+.alert__body {
+    font-size: 0.875rem;
+}

@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: celtechSolutions
+  thymeleaf:
+    cache: false
+  data:
+    mongodb:
+      # Mongo isn't used yet, but the starter is on the classpath.
+      # Pointing at a local instance for dev so auto-config doesn't fail loudly.
+      uri: mongodb://localhost:27017/celtech
+      auto-index-creation: true
+
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: true
+
+logging:
+  level:
+    com.ua.estore.celtechSolutions: INFO

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!--
+    Layout fragments.
+    Usage in pages:
+        <head th:replace="~{fragments/layout :: head('Page title', ~{::pageStyles})}"></head>
+        <th:block th:fragment="pageStyles">
+            <link rel="stylesheet" th:href="@{/css/pages/home.css}"/>
+        </th:block>
+-->
+
+<head th:fragment="head(title, pageStyles)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description"
+          content="Celtech Solutions — pragmatic technical solutions for modern businesses."/>
+    <title th:text="${title} ?: 'Celtech Solutions'">Celtech Solutions</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+          rel="stylesheet"/>
+
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
+    <!-- Global site styles -->
+    <link rel="stylesheet" th:href="@{/css/site.css}"/>
+
+    <!-- Per-page styles slot -->
+    <th:block th:replace="${pageStyles} ?: ~{}"></th:block>
+</head>
+
+<body th:fragment="body" class="page-body"></body>
+
+<header th:fragment="nav"
+        x-data="{ open: false }"
+        class="site-nav">
+    <div class="container site-nav__inner">
+        <a th:href="@{/}" class="site-nav__brand">
+            <span class="site-nav__brand-mark">C</span>
+            <span>Celtech <span class="site-nav__brand-accent">Solutions</span></span>
+        </a>
+
+        <nav class="site-nav__links">
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/links}">Links</a>
+            <a th:href="@{/contact}" class="btn btn--primary btn--sm">Contact</a>
+        </nav>
+
+        <button class="site-nav__toggle"
+                @click="open = !open"
+                aria-label="Toggle navigation">
+            <i data-lucide="menu" x-show="!open"></i>
+            <i data-lucide="x"    x-show="open" x-cloak></i>
+        </button>
+    </div>
+
+    <div class="site-nav__mobile" x-show="open" x-cloak x-transition>
+        <nav class="site-nav__mobile-list">
+            <a th:href="@{/}"        @click="open=false">Home</a>
+            <a th:href="@{/about}"   @click="open=false">About</a>
+            <a th:href="@{/links}"   @click="open=false">Links</a>
+            <a th:href="@{/contact}" @click="open=false" class="text-primary">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<footer th:fragment="footer" class="site-footer">
+    <div class="container site-footer__inner">
+        <p>© <span th:text="${#dates.year(#dates.createNow())}">2025</span> Celtech Solutions. All rights reserved.</p>
+        <div class="site-footer__links">
+            <a href="https://celtechgs.com" target="_blank" rel="noopener">celtechgs.com</a>
+            <a th:href="@{/contact}">Get in touch</a>
+        </div>
+    </div>
+</footer>
+
+<th:block th:fragment="scripts">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script th:src="@{/js/site.js}"></script>
+</th:block>
+
+</html>

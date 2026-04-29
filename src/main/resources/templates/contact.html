@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Celtech Solutions | Contact', ~{::pageStyles})}"></head>
+<th:block th:fragment="pageStyles">
+    <link rel="stylesheet" th:href="@{/css/pages/contact.css}"/>
+</th:block>
+<body>
+
+<header th:replace="~{fragments/layout :: nav}"></header>
+
+<main class="container page contact">
+    <p class="eyebrow" data-aos="fade-up">Contact</p>
+    <h1 data-aos="fade-up">Let's talk.</h1>
+    <p class="lead contact__lead" data-aos="fade-up" data-aos-delay="100">
+        Tell us a little about your project and we'll get back to you shortly.
+    </p>
+
+    <div th:if="${submitted}"
+         class="alert alert--success contact__alert"
+         role="status"
+         data-aos="fade-up">
+        <p class="alert__title">Thanks — your message is on its way.</p>
+        <p class="alert__body">We'll be in touch soon at the email you provided.</p>
+    </div>
+
+    <form th:action="@{/contact}"
+          th:object="${contactForm}"
+          method="post"
+          class="form contact__form"
+          data-aos="fade-up"
+          data-aos-delay="150"
+          x-data="{ sending: false }"
+          @submit="sending = true">
+
+        <div class="form__row">
+            <label for="name" class="form__label">Name</label>
+            <input id="name" type="text" th:field="*{name}" class="form__input"/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="form__error"></p>
+        </div>
+
+        <div class="form__row">
+            <label for="email" class="form__label">Email</label>
+            <input id="email" type="email" th:field="*{email}" class="form__input"/>
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="form__error"></p>
+        </div>
+
+        <div class="form__row">
+            <label for="company" class="form__label">
+                Company <span class="form__label-hint">(optional)</span>
+            </label>
+            <input id="company" type="text" th:field="*{company}" class="form__input"/>
+        </div>
+
+        <div class="form__row">
+            <label for="subject" class="form__label">Subject</label>
+            <input id="subject" type="text" th:field="*{subject}" class="form__input"/>
+            <p th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}" class="form__error"></p>
+        </div>
+
+        <div class="form__row form__row--full">
+            <label for="message" class="form__label">Message</label>
+            <textarea id="message" rows="6" th:field="*{message}" class="form__textarea"></textarea>
+            <p th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="form__error"></p>
+        </div>
+
+        <div class="form__footer">
+            <p class="form__hint">
+                We'll only use your details to reply to your enquiry.
+            </p>
+            <button type="submit" class="btn btn--primary" :disabled="sending">
+                <span x-show="!sending">Send message</span>
+                <span x-show="sending" x-cloak>Sending…</span>
+                <i data-lucide="send" class="icon-inline"></i>
+            </button>
+        </div>
+    </form>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

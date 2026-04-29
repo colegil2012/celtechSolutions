@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Celtech Solutions', ~{::pageStyles})}"></head>
+<th:block th:fragment="pageStyles">
+    <link rel="stylesheet" th:href="@{/css/pages/home.css}"/>
+</th:block>
+<body>
+
+<header th:replace="~{fragments/layout :: nav}"></header>
+
+<main>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__glow"></div>
+
+        <div class="container hero__grid">
+            <div>
+                <p class="eyebrow hero__eyebrow">Technical Solutions</p>
+                <h1 class="hero__title">
+                    Software that ships,
+                    <span class="text-primary">systems that scale.</span>
+                </h1>
+                <p class="lead hero__sub">
+                    Celtech Solutions partners with growing businesses to design,
+                    build and operate the technology that drives their work — from
+                    web platforms to backend services and integrations.
+                </p>
+                <div class="hero__cta">
+                    <a th:href="@{/contact}" class="btn btn--primary">
+                        Start a conversation <i data-lucide="arrow-right" class="icon-inline"></i>
+                    </a>
+                    <a th:href="@{/about}" class="btn btn--ghost">Learn more</a>
+                </div>
+            </div>
+
+            <div class="hero__card">
+                <div class="hero__card-dots"><span></span><span></span><span></span></div>
+                <pre class="hero__code"><code>$ celtech deploy --target=production
+✓ build      ok (12.3s)
+✓ tests      ok (231 passed)
+✓ migrate    ok
+✓ release    <span class="ok">live</span> 🚀</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="container section">
+        <div class="services__head" data-aos="fade-up">
+            <h2>What we do</h2>
+            <p class="lead services__lead">
+                Full-stack development, systems engineering, and DevOps. /n
+                We help you design the system that fits your business, and scales with it.
+            </p>
+        </div>
+
+        <div class="services__grid">
+            <div class="card" data-aos="fade-up">
+                <i data-lucide="layout-dashboard" class="text-primary"></i>
+                <h3 class="card__title">Web Platforms</h3>
+                <p class="card__body">
+                    Customer-facing sites, dashboards and internal tools built
+                    on modern, maintainable stacks.
+                </p>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="100">
+                <i data-lucide="server" class="text-primary"></i>
+                <h3 class="card__title">APIs &amp; Integrations</h3>
+                <p class="card__body">
+                    Robust backend services, third-party integrations and the
+                    glue that keeps your business running.
+                </p>
+            </div>
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+                <i data-lucide="line-chart" class="text-primary"></i>
+                <h3 class="card__title">Advisory &amp; Delivery</h3>
+                <p class="card__body">
+                    Architecture reviews, delivery support, System Administration and Hosting.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="container section-tight">
+        <div class="cta-banner" data-aos="zoom-in">
+            <div>
+                <h3>Have a project in mind?</h3>
+                <p>Tell us what you're building — we'd love to help.</p>
+            </div>
+            <a th:href="@{/contact}" class="btn btn--invert">
+                Contact us <i data-lucide="arrow-right" class="icon-inline"></i>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

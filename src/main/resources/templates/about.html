@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Celtech Solutions | About', ~{::pageStyles})}"></head>
+<th:block th:fragment="pageStyles">
+    <link rel="stylesheet" th:href="@{/css/pages/about.css}"/>
+</th:block>
+<body>
+
+<header th:replace="~{fragments/layout :: nav}"></header>
+
+<main class="container page">
+    <p class="eyebrow" data-aos="fade-up">About</p>
+    <h1 data-aos="fade-up">We build the technology that powers good businesses.</h1>
+
+    <div class="about__lede" data-aos="fade-up" data-aos-delay="100">
+        <p>
+            Celtech Solutions is a small, focused technical consultancy. We
+            partner with founders, operators and product teams to take ideas
+            from sketch to shipped — and then to keep them running well.
+        </p>
+        <p>
+            Our work spans web platforms, APIs, data integrations and
+            developer tooling. We favour boring, durable choices, clear
+            communication, and code we'd be happy to maintain ourselves
+            (because often, we will).
+        </p>
+    </div>
+
+    <section class="about__section" data-aos="fade-up">
+        <h2>How we work</h2>
+        <ul class="about__list">
+            <li><strong>Clarity first.</strong> We agree on outcomes before we write code.</li>
+            <li><strong>Small steps.</strong> Frequent releases over big-bang launches.</li>
+            <li><strong>Own the boring bits.</strong> Logging, backups, deploys — handled.</li>
+        </ul>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
