@@ -81,6 +81,48 @@
     font-weight: 600;
 }
 
+/* Terminal lines */
+.hero__code .line {
+    display: block;
+    min-height: 1.7em;          /* reserve space so layout doesn't jump */
+}
+
+.hero__code .line:not(.line--prompt) {
+    opacity: 0;
+    transform: translateY(2px);
+    transition: opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+
+.hero__code .line.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Blinking caret while the prompt is typing */
+.hero__code .line--prompt.is-typing::after {
+    content: '';
+    display: inline-block;
+    width: 0.55ch;
+    height: 1.1em;
+    margin-left: 2px;
+    vertical-align: -0.18em;
+    background: var(--color-celtech-900);
+    animation: caret-blink 900ms steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+    50% { background: transparent; }
+}
+
+/* Allow the inline <em class="ok"> not to look italic */
+.hero__code em.ok {
+    font-style: normal;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+
 @media (min-width: 768px) {
     .hero__grid { grid-template-columns: 1fr 1fr; }
 }
