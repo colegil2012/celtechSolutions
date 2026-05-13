@@ -45,6 +45,7 @@
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
     padding: var(--space-8);
+    max-width: 36rem;
 }
 
 .hero__card-dots {
