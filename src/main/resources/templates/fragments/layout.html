@@ -48,6 +48,7 @@
             <a th:href="@{/}">Home</a>
             <a th:href="@{/about}">About</a>
             <a th:href="@{/links}">Links</a>
+            <a th:href="@{/templates}">Templates</a>
             <a th:href="@{/contact}" class="btn btn--primary btn--sm">Contact</a>
         </nav>
 
@@ -61,17 +62,18 @@
 
     <div class="site-nav__mobile" x-show="open" x-cloak x-transition>
         <nav class="site-nav__mobile-list">
-            <a th:href="@{/}"        @click="open=false">Home</a>
-            <a th:href="@{/about}"   @click="open=false">About</a>
-            <a th:href="@{/links}"   @click="open=false">Links</a>
-            <a th:href="@{/contact}" @click="open=false" class="text-primary">Contact</a>
+            <a th:href="@{/}"           @click="open=false">Home</a>
+            <a th:href="@{/about}"      @click="open=false">About</a>
+            <a th:href="@{/links}"      @click="open=false">Links</a>
+            <a th:href="@{/templates}"  @click="open=false">Templates</a>
+            <a th:href="@{/contact}"    @click="open=false" class="text-primary">Contact</a>
         </nav>
     </div>
 </header>
 
 <footer th:fragment="footer" class="site-footer">
     <div class="container site-footer__inner">
-        <p>© <span th:text="${#dates.year(#dates.createNow())}">2025</span> Celtech Solutions. All rights reserved.</p>
+        <p>© <span th:text="${#dates.year(#dates.createNow())}">2026</span> Celtech Solutions. All rights reserved.</p>
         <div class="site-footer__links">
             <a href="https://celtechgs.com" target="_blank" rel="noopener">celtechgs.com</a>
             <a th:href="@{/contact}">Get in touch</a>

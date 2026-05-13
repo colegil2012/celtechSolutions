@@ -22,6 +22,9 @@ public class PageController {
         return "links";
     }
 
+    @GetMapping("/templates")
+    public String templates() { return "templates"; }
+
     @GetMapping("/contact")
     public String contact(Model model) {
         if (!model.containsAttribute("contactForm")) {

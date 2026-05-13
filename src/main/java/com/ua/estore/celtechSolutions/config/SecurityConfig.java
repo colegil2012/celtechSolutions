@@ -3,6 +3,7 @@ package com.ua.estore.celtechSolutions.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -19,14 +20,14 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/about", "/contact", "/links",
-                                "/css/**", "/js/**", "/img/**", "/favicon.ico",
+                                "/templates", "/css/**", "/js/**", "/img/**", "/favicon.ico",
                                 "/webjars/**", "/error")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
                 // Keep CSRF on for the contact form. Thymeleaf injects the token automatically.
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable());
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }
