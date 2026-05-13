@@ -9,6 +9,23 @@ spring:
       # Pointing at a local instance for dev so auto-config doesn't fail loudly.
       uri: mongodb://localhost:27017/celtech
       auto-index-creation: true
+  mail:
+    host: ${MAIL_HOST:smtp.office365.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:cole@celtechgs.com}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: ${MAIL_HOST:smtp.office365.com}
+          timeout: 15000
+          connectiontimeout: 10000
+          writetimeout: 15000
 
 server:
   port: 8080
