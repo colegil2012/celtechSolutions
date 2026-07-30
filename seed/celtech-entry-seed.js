@@ -131,7 +131,7 @@ const portfolioEntries = [
     summary:     "Online Ecommerce application centering around locally supplied produce and goods."
                + "Complete with user authentication, cart management, guest checkout, secure payments through stripe integration"
                + " - IN PROGRESS: Developing Raspi 5 powered driver tablet with GNSS chip to allow for real-time tracking of deliveries and inventory management.",
-    category:    [CAT.WEB],
+    category:    [CAT.WEB, CAT.RETAIL],
     stack:       ["Spring Boot", "Thymeleaf", "MongoDB", "Raspberry Pi", "DO SW3 Spaces"],
     launchedYear: 2025,
     featured:    true
@@ -146,7 +146,7 @@ const portfolioEntries = [
                + "Fully managed through Admin Portal Login, Manage your users, orders, menu, menu options, and schedule events for your business."
                + "Paired with Raspi 5 POS tablet with custom case, and 2 Raspi Zero 2W Boards powering an Expo Board for Kitchen Ticket Reference,"
                + "and customer-facing digital menu board.",
-    category:    [CAT.WEB, CAT.HOSPITALITY, CAT.SYSTEMS],
+    category:    [CAT.WEB, CAT.RETAIL, CAT.SYSTEMS],
     stack:       ["Spring Boot", "MongoDB", "Raspberry Pi"],
     launchedYear: 2025,
     featured:    true

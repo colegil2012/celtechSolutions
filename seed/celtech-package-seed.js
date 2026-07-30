@@ -74,7 +74,7 @@ const packages = [
     tagline:   "Web ordering, POS, and kitchen displays — installed and running.",
     order:     1,
     priceType: "from",
-    priceFrom: 2500,                       // REPLACE with your real floor
+    priceFrom: 6500,
     priceNote: "+ hardware, one-time build",
     summary:   "Everything a food truck or small food operation needs to take "
              + "orders and run service, as one package. A web ordering app "
@@ -111,7 +111,7 @@ const packages = [
     tagline:   "A fast, custom-branded site on a stack we own end to end.",
     order:     2,
     priceType: "from",
-    priceFrom: 1200,                       // REPLACE with your real floor
+    priceFrom: 2500,
     priceNote: "one-time build",
     summary:   "A professional, mobile-first website built on the same stack we "
              + "run our own projects on — SvelteKit front end, Spring Boot API, "
@@ -146,7 +146,7 @@ const packages = [
     tagline:   "Sell online with real payments, inventory, and an admin portal.",
     order:     3,
     priceType: "from",
-    priceFrom: 3500,                       // REPLACE with your real floor
+    priceFrom: 5500,                       // REPLACE with your real floor
     priceNote: "one-time build",
     summary:   "Everything in the Starter Site, plus online payments and the "
              + "back office to run a store. Stripe integration for card "
