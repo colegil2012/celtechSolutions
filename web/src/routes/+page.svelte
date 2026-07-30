@@ -49,7 +49,7 @@
     </div>
     <p class="eyebrow hero__eyebrow">Louisville, Kentucky</p>
     <h1 class="hero__title">Technology in service<br />of Nature and Community.</h1>
-    <p class="hero__lede">From simple sites to custom built integrated systems. Built to compliment your small business, deployed, and supported.</p>
+    <p class="hero__lede">From simple sites to custom built integrated systems. Built, Deployed and Supported for your small business.</p>
     <div class="hero__actions">
       <a href="/packages" class="btn btn--solid">See packages</a>
       <a href="/portfolio" class="btn">Our work</a>
