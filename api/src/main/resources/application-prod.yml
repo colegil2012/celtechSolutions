@@ -1,0 +1,16 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+      database: celtech-solutions
+
+app:
+  cors:
+    # Empty fallback intentional — same-origin deploy, no cross-origin requests.
+    allowed-origins: ${CORS_ORIGINS:}
+  mail:
+    enabled: true
+
+logging:
+  level:
+    com.celtech.api: INFO

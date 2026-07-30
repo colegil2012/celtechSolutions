@@ -1,0 +1,11 @@
+/* SiteFooter.css — deep turf ground closing the page */
+.footer { margin-top: var(--s-10); background: var(--c-turf); color: var(--c-on-turf); border-top: 3px solid var(--c-green); }
+.footer__inner { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(140px, 0.7fr)); gap: var(--s-6); padding-block: var(--s-8) var(--s-6); }
+.footer__name { font-family: var(--f-display); font-size: var(--fs-h3); font-weight: 700; }
+.footer__line { max-width: 40ch; margin-top: var(--s-3); color: var(--c-green-soft); font-size: var(--fs-small); }
+.footer__col { display: flex; flex-direction: column; gap: var(--s-2); }
+.footer__coltitle { font-family: var(--f-mono); font-size: var(--fs-micro); letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--c-green); margin-bottom: var(--s-1); }
+.footer__link { font-size: var(--fs-small); color: var(--c-green-soft); transition: color var(--t-fast) var(--e-out); }
+.footer__link:hover { color: var(--c-on-turf); }
+.footer__base { display: flex; justify-content: space-between; gap: var(--s-3); padding-block: var(--s-4) var(--s-6); border-top: 1px solid color-mix(in srgb, var(--c-on-turf) 20%, transparent); font-family: var(--f-mono); font-size: var(--fs-micro); color: var(--c-green-soft); }
+@media (max-width: 760px) { .footer__inner { grid-template-columns: 1fr; gap: var(--s-6); } }
