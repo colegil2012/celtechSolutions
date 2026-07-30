@@ -26,7 +26,7 @@
 
 /* The float-in logo — rises and settles, then gently floats */
 .hero__logo {
-  width: clamp(150px, 27vw, 325px);
+  width: clamp(140px, 30vw, 350px);
   aspect-ratio: 1;
   margin-top: var(--s-8);
   margin-bottom: var(--s-4);
