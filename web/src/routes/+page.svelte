@@ -43,13 +43,13 @@
   <div class="hero__inner shell">
     <div class="hero__logo">
       <!-- Drop the real logo at static/site/logo.png; falls back to a mark. -->
-      <img src="/site/logo.png" alt="CelTech Solutions"
+      <img src="/site/logo.png" alt="Celtech Solutions"
            onerror={(e) => { e.currentTarget.style.display='none'; e.currentTarget.nextElementSibling.style.display='flex'; }} />
       <div class="hero__logo-fallback" style="display:none">CT</div>
     </div>
     <p class="eyebrow hero__eyebrow">Louisville, Kentucky</p>
-    <h1 class="hero__title">We build the systems<br />local businesses run on.</h1>
-    <p class="hero__lede">Full-stack web, systems design, and integrated hardware — from a custom site to a food-truck POS. Built to spec, deployed, and supported.</p>
+    <h1 class="hero__title">Technology in service<br />of Nature and Community.</h1>
+    <p class="hero__lede">From simple sites to custom built integrated systems. Built to compliment your small business, deployed, and supported.</p>
     <div class="hero__actions">
       <a href="/packages" class="btn btn--solid">See packages</a>
       <a href="/portfolio" class="btn">Our work</a>
