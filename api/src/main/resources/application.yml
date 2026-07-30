@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: celtech-api
+  profiles:
+    # default (not active) so SPRING_PROFILES_ACTIVE overrides it in prod.
+    default: local
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/celtech-solutions}
+      auto-index-creation: true
+  mail:
+    host: ${MAIL_HOST:smtp.example.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:cole@celtechgs.com}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+    mime-types: application/json,text/css,application/javascript
+
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+  mail:
+    enabled: ${MAIL_ENABLED:false}
+    notify-to: ${MAIL_NOTIFY_TO:hello@celtech-solutions.tech}
+    notify-from: ${MAIL_NOTIFY_FROM:noreply@celtech-solutions.tech}
+  storage:
+    local:
+      root: ${LOCAL_IMAGE_ROOT:../local-images}
+      public-prefix: ${LOCAL_IMAGE_PREFIX:/images}
+    spaces:
+      endpoint: ${SPACES_ENDPOINT:https://nyc3.digitaloceanspaces.com}
+      region: ${SPACES_REGION:nyc3}
+      bucket: ${SPACES_BUCKET:}
+      access-key: ${SPACES_KEY:}
+      secret-key: ${SPACES_SECRET:}
+      cdn-base: ${SPACES_CDN_BASE:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+logging:
+  level:
+    com.celtech.api: DEBUG

@@ -1,0 +1,167 @@
+/* ==========================================================================
+   root.css — design tokens for celtech-solutions
+   Cream + blueprint + the two greens. A technical-consultancy identity:
+   precise, engineered, schematic — but warm, on the kitchen-site cream ground
+   rather than a cold dark one.
+
+   CONTRAST NOTES (measured against the cream ground #FAF0DA):
+     ink        14.6:1  — body text ✓
+     deep turf  11.0:1  — headings, strong text ✓
+     blueprint   5.96:1 — accent text, links ✓ (body-legal)
+     fresh green 2.77:1 — FILLS/BORDERS/large only. NEVER small text on cream.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* --- Color ------------------------------------------------------------- */
+  --c-cream:        #FAF0DA;  /* page ground — matches the kitchen site */
+  --c-cream-raised: #FDF7E9;  /* cards, panels above the ground */
+  --c-cream-sunken: #F1E4C6;  /* wells, footer, subtle insets */
+  --c-line:         #E0D2AE;  /* hairlines on cream */
+  --c-line-strong:  #C9B98F;  /* stronger dividers, card borders */
+
+  --c-ink:        #16211A;  /* primary text — near-black with a green cast */
+  --c-ink-dim:    #4A5A4E;  /* secondary text */
+  --c-ink-faint:  #7C8A7E;  /* metadata, captions */
+
+  --c-turf:       #1B3A2A;  /* deep turf — headings, primary buttons */
+  --c-turf-deep:  #122619;  /* pressed / shadow */
+  --c-green:      #6E9E5A;  /* fresh green — FILLS AND BORDERS ONLY */
+  --c-green-soft: #A8C596;  /* light green tints, backgrounds */
+
+  --c-blue:       #2C5F8A;  /* blueprint blue — the schematic accent, links */
+  --c-blue-soft:  #6C98BE;  /* lighter blue, grid lines */
+  --c-blue-line:  #B9CEDF;  /* blueprint grid hairlines on cream */
+
+  --c-gold:       #E6AC00;  /* gold — accents, buttons */
+  --c-gold-soft:  #FFD966;  /* light gold tints, backgrounds */
+
+  --c-on-turf:    #F3EFE2;  /* text on deep-turf surfaces */
+  --c-error:      #A6382B;
+  --c-success:    #2F6B3A;
+
+  /* --- Type ---------------------------------------------------------------
+     Space Grotesk (geometric, slightly technical) for display; IBM Plex Mono
+     for the schematic/labels/code register; Inter for running body. */
+  --f-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  --f-mono:    'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --f-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --fs-hero:    clamp(2.5rem, 7vw, 5.5rem);
+  --fs-h1:      clamp(2rem, 5vw, 3.25rem);
+  --fs-h2:      clamp(1.5rem, 3.2vw, 2.25rem);
+  --fs-h3:      clamp(1.15rem, 2vw, 1.4rem);
+  --fs-body-lg: clamp(1.05rem, 1.4vw, 1.2rem);
+  --fs-body:    1rem;
+  --fs-small:   0.875rem;
+  --fs-micro:   0.75rem;
+
+  --lh-tight: 0.98;
+  --lh-snug:  1.18;
+  --lh-body:  1.62;
+
+  --ls-tight: -0.02em;
+  --ls-wide:  0.14em;   /* mono labels, eyebrows */
+
+  /* --- Space --------------------------------------------------------------- */
+  --s-1: 0.25rem; --s-2: 0.5rem;  --s-3: 0.75rem; --s-4: 1rem;
+  --s-5: 1.5rem;  --s-6: 2rem;    --s-7: 3rem;    --s-8: 4.5rem;
+  --s-9: 7rem;    --s-10: 10rem;
+
+  /* --- Layout -------------------------------------------------------------- */
+  --w-page: 1200px;
+  --w-text: 64ch;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+
+  /* --- Motion -------------------------------------------------------------- */
+  --t-fast: 160ms; --t-med: 340ms; --t-slow: 640ms;
+  --e-out: cubic-bezier(0.2, 0.8, 0.3, 1);
+
+  /* --- Blueprint grid — the signature background texture ------------------- */
+  --blueprint:
+    linear-gradient(var(--c-gold-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--c-gold-soft) 1px, transparent 1px);
+  --blueprint-size: 28px 28px;
+
+  --z-nav: 100;
+  --z-overlay: 200;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--c-cream);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  color: var(--c-turf);
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; color: inherit; }
+
+/* --- Shared primitives --------------------------------------------------- */
+.shell {
+  width: 100%;
+  max-width: var(--w-page);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Mono eyebrow/label — the schematic register */
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--c-green);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-5);
+  border: 2px solid var(--c-turf);
+  border-radius: 0;
+  background: transparent;
+  color: var(--c-turf);
+  font-family: var(--f-mono);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background var(--t-fast) var(--e-out), color var(--t-fast) var(--e-out);
+}
+.btn:hover { background: var(--c-turf); color: var(--c-on-turf); }
+.btn--solid { background: var(--c-turf); color: var(--c-on-turf); }
+.btn--solid:hover { background: var(--c-green); border-color: var(--c-green); color: var(--c-turf-deep); }
+
+:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 1ms; --t-med: 1ms; --t-slow: 1ms; }
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}

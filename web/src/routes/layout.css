@@ -1,0 +1,17 @@
+/* layout.css — global reveal transitions + chrome */
+
+.skip-link {
+  position: absolute; top: var(--s-3); left: var(--s-3);
+  z-index: calc(var(--z-nav) + 1);
+  padding: var(--s-2) var(--s-4);
+  background: var(--c-turf); color: var(--c-on-turf);
+  font-family: var(--f-mono); font-size: var(--fs-small);
+  transform: translateY(-200%); transition: transform var(--t-fast) var(--e-out);
+}
+.skip-link:focus { transform: translateY(0); }
+
+main { display: block; min-height: 60vh; }
+
+/* reveal action states */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--t-slow) var(--e-out), transform var(--t-slow) var(--e-out); }
+.reveal.revealed { opacity: 1; transform: translateY(0); }

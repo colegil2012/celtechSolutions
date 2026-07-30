@@ -1,0 +1,188 @@
+# =============================================================================
+# DigitalOcean App Platform spec — celtech-solutions
+#
+# One app, two components (api + web) behind one hostname. The browser only
+# ever talks to one origin, so PUBLIC_API_BASE stays empty and CORS never
+# engages. Same pattern as the ddarty and ells sites; every fix learned
+# deploying those is baked in here from the start.
+#
+#   First deploy:  doctl apps create --spec .do/app.yaml
+#   Update config: doctl apps update <APP_ID> --spec .do/app.yaml
+#   Pull live:     doctl apps spec get <APP_ID> > .do/app.yaml   (edit THIS)
+#
+# ---------------------------------------------------------------------------
+# SECRETS ARE NOT IN THIS FILE ON PURPOSE.
+#   - MONGO_URI comes from the database binding below (DO manages the credential).
+#   - Spaces keys and Mail secrets are set in the CONSOLE and omitted here, so a
+#     spec push can't overwrite a real value with a placeholder. Putting a
+#     CHANGE_ME here and pushing was the worst trap on the first deploy — it
+#     clobbers the console value with the literal string "CHANGE_ME".
+#
+# `doctl apps update --spec` is a FULL REPLACE of the config with this file.
+# Anything not present here gets wiped — so always `spec get` the live config
+# and edit that, rather than pushing a stale copy from the repo.
+# ---------------------------------------------------------------------------
+# =============================================================================
+
+name: celtech-solutions
+region: nyc
+
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+
+# --- Managed database binding -------------------------------------------------
+# Attaches the shared celtech-dev cluster. ${celtech-dev.DATABASE_URL} resolves
+# at deploy time to a live, credential-managed connection string (which ends in
+# /admin). The app pins the real database via `database: celtech-solutions` in
+# application-prod.yml — that pin is the only thing separating this app's data
+# from ddarty and ells on the same cluster.
+databases:
+- name: celtech-dev
+  engine: MONGODB
+  production: true
+  cluster_name: celtech-dev
+
+services:
+# ---------------------------------------------------------------------------
+# Spring Boot API  —  receives /api/* and /actuator/*
+# ---------------------------------------------------------------------------
+- name: api
+  dockerfile_path: api/Dockerfile
+  source_dir: /
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: apps-s-1vcpu-1gb
+
+  github:
+  repo: colegil2012/celtech-solutions
+  branch: main
+  deploy_on_push: true
+
+  # Readiness holds a warming container out of rotation; liveness restarts a
+  # wedged JVM and is deliberately more forgiving to avoid restart loops.
+  health_check:
+  http_path: /actuator/health/readiness
+  initial_delay_seconds: 40
+  period_seconds: 10
+  timeout_seconds: 5
+  success_threshold: 1
+  failure_threshold: 5
+
+  liveness_health_check:
+  http_path: /actuator/health/liveness
+  initial_delay_seconds: 50
+  period_seconds: 15
+  timeout_seconds: 5
+  failure_threshold: 6
+
+  termination:
+  drain_seconds: 15
+  grace_period_seconds: 30
+
+  alerts:
+    - rule: CPU_UTILIZATION
+      operator: GREATER_THAN
+      value: 80
+      window: FIVE_MINUTES
+    - rule: MEM_UTILIZATION
+      operator: GREATER_THAN
+      value: 85
+      window: FIVE_MINUTES
+    - rule: RESTART_COUNT
+      operator: GREATER_THAN
+      value: 3
+      window: TEN_MINUTES
+
+  # NON-secret config only. MONGO_URI is the DB binding. Spaces bucket/CDN/keys
+  # and all MAIL_* secrets are set in the console (see DEPLOYMENT.md).
+  # CORS_ORIGINS is intentionally absent — same-origin deploy, and
+  # application-prod.yml defaults it empty via ${CORS_ORIGINS:}.
+  envs:
+    - key: SPRING_PROFILES_ACTIVE
+      value: prod
+      scope: RUN_TIME
+    - key: MONGO_URI
+      value: ${celtech-dev.DATABASE_URL}
+      scope: RUN_TIME
+    - key: SPACES_ENDPOINT
+      value: https://nyc3.digitaloceanspaces.com
+      scope: RUN_TIME
+    - key: SPACES_REGION
+      value: nyc3
+      scope: RUN_TIME
+    - key: MAIL_ENABLED
+      value: "true"
+      scope: RUN_TIME
+    - key: MAIL_PORT
+      value: "587"
+      scope: RUN_TIME
+
+# ---------------------------------------------------------------------------
+# SvelteKit frontend  —  receives everything else
+# ---------------------------------------------------------------------------
+- name: web
+  dockerfile_path: web/Dockerfile
+  source_dir: /
+  http_port: 3000
+  instance_count: 1
+  instance_size_slug: apps-s-1vcpu-0.5gb
+
+  github:
+  repo: colegil2012/celtech-solutions
+  branch: main
+  deploy_on_push: true
+
+  health_check:
+  http_path: /
+  initial_delay_seconds: 10
+  period_seconds: 10
+  timeout_seconds: 5
+  failure_threshold: 5
+
+  termination:
+  drain_seconds: 10
+  grace_period_seconds: 20
+
+  # Empty PUBLIC_API_BASE on purpose: api and web share a hostname, so
+  # relative /api requests resolve and no CORS preflight fires.
+  envs:
+    - key: PUBLIC_API_BASE
+      value: ""
+      scope: RUN_TIME
+    - key: NODE_ENV
+      value: production
+      scope: RUN_TIME
+
+# --- Ingress: first match wins, so specific prefixes precede the catch-all ----
+# preserve_path_prefix keeps /api/entries intact; without it the API would
+# receive /entries and 404.
+ingress:
+rules:
+- match:
+path:
+prefix: /api
+component:
+name: api
+preserve_path_prefix: true
+- match:
+path:
+prefix: /actuator
+component:
+name: api
+preserve_path_prefix: true
+- match:
+path:
+prefix: /
+component:
+name: web
+
+# --- Domains — uncomment once DNS is ready ------------------------------------
+# On Cloudflare: add the record DNS-only (grey) first, wait for the cert to
+# issue, THEN switch to proxied with SSL mode Full (strict). Going proxied
+# before the cert exists produces confusing 5xx errors.
+# domains:
+#   - domain: celtech-solutions.tech
+#     type: PRIMARY
+#   - domain: www.celtech-solutions.tech
+#     type: ALIAS

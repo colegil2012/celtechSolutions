@@ -1,65 +1,24 @@
-HELP.md
+# Java
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-# Maven
-target/
-*.jar
-*.war
-*.ear
 *.class
-*.log
- 
-# IntelliJ / VS Code
-.idea/
-*.iml
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
- 
-# Spring Boot
-spring-shell.log
- 
-# Environment / secrets — NEVER commit these
+*.jar
+
+# Node
+node_modules/
+.svelte-kit/
+build/
+
+# Env
 .env
-application-prod.properties
-application-local.properties
- 
-# OS
+.env.*
+!.env.example
+
+# Local images (uploaded content, not source)
+local-images/*
+!local-images/.gitkeep
+
+# Editors and OS
+.idea/
+.vscode/
+*.iml
 .DS_Store
-Thumbs.db
- 
-# Docker
-docker-compose.override.yml
