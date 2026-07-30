@@ -39,7 +39,7 @@
     <h1 class="contact__title">Start a project</h1>
     <p class="contact__lede">Tell us what your business needs. We reply within one business day.</p>
     <dl class="contact__facts">
-      <div><dt>Email</dt><dd><a href="mailto:druid@celtech-solutions.tech">druid@celtech-solutions.tech</a></dd></div>
+      <div><dt>Email</dt><dd><a href="mailto:druid@celtechsolutions.tech">druid@celtechsolutions.tech</a></dd></div>
       <div><dt>Based in</dt><dd>Louisville, Kentucky</dd></div>
     </dl>
   </div>

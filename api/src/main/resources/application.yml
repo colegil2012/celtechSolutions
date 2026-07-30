@@ -9,9 +9,9 @@ spring:
       uri: ${MONGO_URI:mongodb://localhost:27017/celtech-solutions}
       auto-index-creation: true
   mail:
-    host: ${MAIL_HOST:smtp.example.com}
+    host: ${MAIL_HOST:smtp.fastmail.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:cole@celtechgs.com}
+    username: ${MAIL_USERNAME:druid@celtechsolutions.tech}
     password: ${MAIL_PASSWORD:}
     properties:
       mail.smtp.auth: true
@@ -28,8 +28,8 @@ app:
     allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
   mail:
     enabled: ${MAIL_ENABLED:false}
-    notify-to: ${MAIL_NOTIFY_TO:hello@celtech-solutions.tech}
-    notify-from: ${MAIL_NOTIFY_FROM:noreply@celtech-solutions.tech}
+    notify-to: ${MAIL_NOTIFY_TO:druid@celtechsolutions.tech}
+    notify-from: ${MAIL_NOTIFY_FROM:mailer@celtechsolutions.tech}
   storage:
     local:
       root: ${LOCAL_IMAGE_ROOT:../local-images}
