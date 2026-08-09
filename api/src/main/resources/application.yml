@@ -6,7 +6,8 @@ spring:
     default: local
   data:
     mongodb:
-      uri: ${MONGO_URI:mongodb://localhost:27017/celtech-solutions}
+      uri: ${MONGO_URI:mongodb://localhost:27017/}
+      database: celtech-solutions
       auto-index-creation: true
   mail:
     host: ${MAIL_HOST:smtp.fastmail.com}
@@ -23,13 +24,26 @@ server:
     enabled: true
     mime-types: application/json,text/css,application/javascript
 
+spring.servlet.multipart:
+  max-file-size: 15MB
+  max-request-size: 20MB
+
 app:
   cors:
-    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,https://ddarty.com,https://www.ddarty.com,https://ells4u.com,https://www.ells4u.com}
+  clients:
+    # Client portal db connection, multi-tenant model
+    # Each Client gets its own collection
+    mongodb-database: ${MONGODB_DATABASE:celtech-clients}
+  auth:
+    # 256-bit+ secret. MUST be overridden in prod via env.
+    jwt-secret: ${JWT_SECRET:dev-only-secret-change-me-000000000000000000000000000000}
+    jwt-ttl-minutes: ${JWT_TTL_MINUTES:720}
+    cookie-secure: ${AUTH_COOKIE_SECURE:false}
   mail:
     enabled: ${MAIL_ENABLED:false}
     notify-to: ${MAIL_NOTIFY_TO:druid@celtechsolutions.tech}
-    notify-from: ${MAIL_NOTIFY_FROM:mailer@celtechsolutions.tech}
+    notify-from: ${MAIL_NOTIFY_FROM:raven@celtechsolutions.tech}
   storage:
     local:
       root: ${LOCAL_IMAGE_ROOT:../local-images}
@@ -41,6 +55,9 @@ app:
       access-key: ${SPACES_KEY:}
       secret-key: ${SPACES_SECRET:}
       cdn-base: ${SPACES_CDN_BASE:}
+  public-read:
+    # Cache Control for public-read assets / default 1 hour for updates to show live #
+    cache-seconds: ${PUBLIC_READ_CACHE_SECONDS:3600}
 
 management:
   endpoints:
@@ -60,4 +77,7 @@ management:
 
 logging:
   level:
-    com.celtech.api: DEBUG
+    com.celtech.api: INFO
+    org.mongodb.driver: WARN
+    org.springframework.web: WARN
+    org.springframework.security: WARN

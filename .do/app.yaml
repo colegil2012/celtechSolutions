@@ -105,6 +105,18 @@ services:
       - key: MONGO_URI
         value: ${celtech-dev.DATABASE_URL}
         scope: RUN_TIME
+      - key: CLIENTS_DB
+        value: celtech-clients
+        scope: RUN_TIME
+      - key: AUTH_COOKIE_SECURE
+        value: "true"
+        scope: RUN_TIME
+      - key: JWT_TTL_MINUTES
+        value: "720"
+        scope: RUN_TIME
+      - key: PUBLIC_CACHE_SECONDS
+        value: "1800"
+        scope: RUN_TIME
       - key: SPACES_ENDPOINT
         value: https://nyc3.digitaloceanspaces.com
         scope: RUN_TIME

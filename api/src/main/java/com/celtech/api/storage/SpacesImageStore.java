@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +52,25 @@ public class SpacesImageStore implements ImageStore {
             throw new UncheckedIOException("Upload failed for key: " + key, e);
         }
         return key;
+    }
+
+    /**
+     * Server-side copy within the bucket. S3 has no rename, so a "move" (see the
+     * default method on ImageStore) is copy + delete. ACLs are per-object and are
+     * NOT carried by a copy, so we re-assert PUBLIC_READ on the destination; the
+     * COPY metadata directive preserves the source's content-type/cache-control.
+     */
+    @Override
+    public String copy(String sourceKey, String destinationKey) {
+        client.copyObject(CopyObjectRequest.builder()
+                .sourceBucket(bucket)
+                .sourceKey(sourceKey)
+                .destinationBucket(bucket)
+                .destinationKey(destinationKey)
+                .metadataDirective(MetadataDirective.COPY)
+                .acl(ObjectCannedACL.PUBLIC_READ)
+                .build());
+        return destinationKey;
     }
 
     @Override

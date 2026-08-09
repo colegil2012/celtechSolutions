@@ -7,6 +7,7 @@
     { href: '/directory', label: 'Friends' },
     { href: '/packages',  label: 'Packages' },
     { href: '/about',     label: 'About' },
+    { href: '/portal',    label: 'Portal' },
     { href: '/contact',   label: 'Contact' }
   ];
   let scrolled = $state(false);

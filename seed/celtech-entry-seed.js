@@ -42,7 +42,6 @@ targetDb.entry.drop();
 
 // ---- Category vocabulary (reused across portfolio + directory) --------------
 const CAT = {
-  WEB:         "web",
   ECOMMERCE:   "ecommerce",
   HOSPITALITY: "hospitality",   // food trucks, restaurants
   TRADES:      "trades",        // landscaping, contractors
@@ -105,8 +104,8 @@ const portfolioEntries = [
     blurb:       "Digital art portfolio and commission requests for a Louisville artist.",
     summary:     "A gallery-driven portfolio with a random-sample homepage strip, "
                + "tag-filtered gallery, and a commission request pipeline. ",
-    category:    [CAT.WEB, CAT.CREATIVE],
-    stack:       ["Spring Boot", "SvelteKit", "MongoDB", "DO Spaces"],
+    category:    [CAT.CREATIVE],
+    stack:       ["Spring Boot", "SvelteKit", "MongoDB", "DO SW3 Spaces"],
     launchedYear: 2026,
     featured:    true
   }),
@@ -118,7 +117,7 @@ const portfolioEntries = [
     summary:     "Project portfolio with before/after comparisons, service-type "
                + "filtering, and a lead-capture request form routed to the crew. "
                + "Same stack, tuned for a trades business.",
-    category:    [CAT.WEB, CAT.TRADES],
+    category:    [CAT.TRADES],
     stack:       ["Spring Boot", "SvelteKit", "MongoDB", "DO SW3 Spaces"],
     launchedYear: 2026,
     featured:    true
@@ -127,11 +126,11 @@ const portfolioEntries = [
     name:        "Celtech General Store",
     url:         "https://celtechgs.com",
     file:        "celtechgs.png",
-    blurb:       "Online storefront for Celtech General Store, ecommerce site for all locally supplied produce and goods.",
+    blurb:       "Online storefront for Celtech General Store, ecommerce site with user auth and secure payments via stripe.",
     summary:     "Online Ecommerce application centering around locally supplied produce and goods."
                + "Complete with user authentication, cart management, guest checkout, secure payments through stripe integration"
                + " - IN PROGRESS: Developing Raspi 5 powered driver tablet with GNSS chip to allow for real-time tracking of deliveries and inventory management.",
-    category:    [CAT.WEB, CAT.RETAIL],
+    category:    [CAT.RETAIL, CAT.SYSTEMS],
     stack:       ["Spring Boot", "Thymeleaf", "MongoDB", "Raspberry Pi", "DO SW3 Spaces"],
     launchedYear: 2025,
     featured:    true
@@ -139,14 +138,14 @@ const portfolioEntries = [
   portfolio({
     name:        "Celtech General Store — Mobile Kitchen",
     url:         "https://celtechgs.kitchen",
-    file:        "celtechgs-kitchen.png",
-    blurb:       "Web ordering and kitchen-display system for food service.",
+    file:        "celtechkitchen.png",
+    blurb:       "Online, event-based storefront, complimented with POS system, digital Expo and Menu Boards, all synced to a central database.",
     summary:     "Web ordering application for Celtech Mobile Kitchen."
                + "Event based architecture, online checkout closes when the event closes."
                + "Fully managed through Admin Portal Login, Manage your users, orders, menu, menu options, and schedule events for your business."
                + "Paired with Raspi 5 POS tablet with custom case, and 2 Raspi Zero 2W Boards powering an Expo Board for Kitchen Ticket Reference,"
                + "and customer-facing digital menu board.",
-    category:    [CAT.WEB, CAT.RETAIL, CAT.SYSTEMS],
+    category:    [CAT.RETAIL, CAT.SYSTEMS],
     stack:       ["Spring Boot", "MongoDB", "Raspberry Pi"],
     launchedYear: 2025,
     featured:    true
@@ -160,12 +159,19 @@ const directoryEntries = [
   directory({
     name:     "J Mo's Food Truck",
     url:      "https://www.jmosfoodtruck.com",
-    file:     "jmos.png",
-    blurb:    "Full-service landscaping, hardscape, and lawn care in greater Louisville.",
+    file:     "jmos.jpg",
+    blurb:    "Hibachi style food truck, catch them roaming the Shepherdsville area.",
     category: [CAT.TRADES],
     featured: true
+  }),
+  directory({
+    name:     "Farmer's Wife",
+    url:      "https://www.farmerswife.farm",
+    file:     "farmerswife.png",
+    blurb:    "Local, Natural, Hormone-free Meat, stocked weekly, order online for pickup or delivery.",
+    category: [CAT.RETAIL],
+    featured: true
   })
-  // Add the businesses you'd list here — same shape, kind:"directory".
 ];
 
 const all = [...portfolioEntries, ...directoryEntries];

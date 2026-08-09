@@ -69,13 +69,21 @@
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); justify-content: center; }
 
 .hero__scroll {
-  position: absolute; bottom: var(--s-6); left: 50%; transform: translateX(-50%);
-  width: 26px; height: 42px; border: 2px solid var(--c-turf); border-radius: 14px;
-  display: flex; justify-content: center; padding-top: 7px;
-  opacity: 0; transition: opacity var(--t-slow) 900ms;
+  position: absolute;
+  bottom: var(--s-6);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 42px;
+  border: var(--border-1);
+  border-radius: var(--br-xl);
+  display: flex;
+  justify-content: center;
+  padding-top: 7px;
+  opacity: 0;
+  transition: opacity var(--t-slow) 900ms;
 }
 .hero--in .hero__scroll { opacity: 0.7; }
-.hero__scroll span { width: 3px; height: 8px; background: var(--c-gold); border-radius: 2px; animation: scrolldot 1.6s ease-in-out infinite; }
+.hero__scroll span { width: 3px; height: 8px; background: var(--c-gold); border-radius: var(--br-xs); animation: scrolldot 1.6s ease-in-out infinite; }
 @keyframes scrolldot { 0%,100% { opacity: 0; transform: translateY(0); } 50% { opacity: 1; transform: translateY(6px); } }
 
 /* --- Shared strip sections ---------------------------------------------- */
@@ -85,12 +93,12 @@
 .strip__all { font-family: var(--f-mono); font-size: var(--fs-small); color: var(--c-turf-deep); white-space: nowrap; }
 .strip__all:hover { text-decoration: underline; }
 .strip__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s-4); }
-.strip__skel { aspect-ratio: 16 / 12; background: var(--c-cream-raised); border: 1px solid var(--c-line); animation: pulse 1.5s ease-in-out infinite; }
+.strip__skel { aspect-ratio: 16 / 12; background: var(--c-cream-raised); border: var(--border-3); animation: pulse 1.5s ease-in-out infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
 .strip__empty { color: var(--c-ink-faint); font-family: var(--f-mono); font-size: var(--fs-small); }
 
 /* --- Packages band ------------------------------------------------------ */
-.pkgs { padding-block: var(--s-7); background: var(--c-cream-sunken); border-block: 1px solid var(--c-line); }
+.pkgs { padding-block: var(--s-7); background: var(--c-cream-sunken); border-block: var(--border-3); }
 .pkgs__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s-4); }
 .pkgcard {
   display: flex; flex-direction: column; gap: var(--s-2);

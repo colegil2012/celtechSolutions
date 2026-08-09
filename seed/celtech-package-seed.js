@@ -69,17 +69,17 @@ const packages = [
 
   // ---- Food Truck Starter Pack — the flagship productized offering ----------
   pkg({
-    slug:      "food-truck-starter-pack",
-    name:      "Food Truck Starter Pack",
-    tagline:   "Web ordering, POS, and kitchen displays — installed and running.",
-    order:     1,
+    slug:      "food-service-starter",
+    name:      "Food Service Starter",
+    tagline:   "Web ordering, POS, Optional Digital Expo and Menu Displays.",
+    order:     3,
     priceType: "from",
-    priceFrom: 6500,
+    priceFrom: 8500,
     priceNote: "+ hardware, one-time build",
     summary:   "Everything a food truck or small food operation needs to take "
              + "orders and run service, as one package. A web ordering app "
              + "backed by a hosted database, a Raspberry Pi POS terminal, a "
-             + "kitchen expo board for order reference, and a customer-facing "
+             + "Pi zero 2w kitchen expo board for order reference, and a customer-facing "
              + "menu display — configured, branded, and handed over working.",
     includes: [
       "Web ordering application (mobile-friendly, your branding)",
@@ -93,9 +93,11 @@ const packages = [
     addOns: [
       { name: "Online payments", note: "Stripe integration for card orders" },
       { name: "Ongoing support",  note: "Monthly maintenance + updates retainer" },
-      { name: "Extra display",    note: "Additional customer or kitchen screen" }
+      { name: "Expo Display",    note: "Additional Kitchen expo display - Linked to the site backend, all your orders in real-time" },
+      { name: "Menu Display",    note: "Additional customer-facing menu display - Live updates to menu when items run out." },
+      { name: "Network Setup",   note: "Cellular router setup and configuration support, at installation."}
     ],
-    timeline: "2–4 weeks from deposit to install",
+    timeline: "4–6 weeks from deposit to install",
     bestFor:  "Food trucks and small food operations that need ordering, POS, "
             + "and kitchen coordination without stitching together separate "
             + "vendors.",
@@ -108,10 +110,10 @@ const packages = [
   pkg({
     slug:      "starter-site",
     name:      "Starter Site",
-    tagline:   "A fast, custom-branded site on a stack we own end to end.",
-    order:     2,
+    tagline:   "Quick, custom-branded site on a stack we own end to end.",
+    order:     1,
     priceType: "from",
-    priceFrom: 2500,
+    priceFrom: 2000,
     priceNote: "one-time build",
     summary:   "A professional, mobile-first website built on the same stack we "
              + "run our own projects on — SvelteKit front end, Spring Boot API, "
@@ -121,8 +123,8 @@ const packages = [
       "Custom-branded, mobile-first SvelteKit site",
       "Spring Boot API backend",
       "MongoDB database (hosted)",
-      "Cloud image storage (DO Spaces) with thumbnails",
-      "Contact / lead-capture form routed to your inbox",
+      "Cloud image storage (DO Spaces) with gallery images and thumbnails",
+      "Contact / lead-capture form routed to your email inbox",
       "Deployed on DigitalOcean, domain + TLS configured",
       "Handover and basic training"
     ],
@@ -144,7 +146,7 @@ const packages = [
     slug:      "ecommerce",
     name:      "E-Commerce Build",
     tagline:   "Sell online with real payments, inventory, and an admin portal.",
-    order:     3,
+    order:     2,
     priceType: "from",
     priceFrom: 5500,                       // REPLACE with your real floor
     priceNote: "one-time build",

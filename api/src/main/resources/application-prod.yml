@@ -8,9 +8,14 @@ app:
   cors:
     # Empty fallback intentional — same-origin deploy, no cross-origin requests.
     allowed-origins: ${CORS_ORIGINS:}
+  auth:
+    cookie-secure: true
   mail:
     enabled: true
 
 logging:
   level:
     com.celtech.api: INFO
+    org.mongodb.driver: WARN
+    org.springframework.web: WARN
+    org.springframework.security: WARN

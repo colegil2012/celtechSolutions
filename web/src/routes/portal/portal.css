@@ -1,0 +1,281 @@
+/* =========================================================================
+   portal.css — all styling for the client/admin portal.
+   Relies on design tokens from root.css (loaded by the root layout).
+   ========================================================================= */
+
+/* ---- Admin chrome (top bar) -------------------------------------------- */
+.padmin {
+    position: sticky; top: 0; z-index: var(--z-nav, 100);
+    background: var(--c-turf); color: var(--c-gold-soft);
+    border-bottom: 1px solid var(--c-line-strong);
+}
+.padmin__inner {
+    display: flex; align-items: center; gap: var(--s-5);
+    padding: var(--s-3) var(--gutter); max-width: 1200px; margin-inline: auto;
+}
+.padmin__back {
+    color: var(--c-gold-soft); font-family: var(--f-mono);
+    font-size: var(--fs-small); white-space: nowrap;
+}
+.padmin__back:hover { color: var(--c-gold); }
+.padmin__nav { display: flex; gap: var(--s-3); }
+
+.padmin__menu { position: relative; }
+.padmin__menubtn {
+    background: transparent; border: none; color: var(--c-gold-soft);
+    font-family: var(--f-mono); font-size: var(--fs-small); cursor: pointer;
+    padding: var(--s-2) var(--s-3);
+}
+.padmin__menubtn:hover { color: var(--c-gold); }
+
+.padmin__dropdown {
+    position: absolute; top: 100%; left: 0; min-width: 170px; z-index: 200;
+    background: var(--c-cream-raised); border: 1px solid var(--c-line-strong);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    display: flex; flex-direction: column; padding: var(--s-1) 0;
+}
+.padmin__dropdown a {
+    padding: var(--s-2) var(--s-4); color: var(--c-ink-dim);
+    font-family: var(--f-mono); font-size: var(--fs-small);
+    text-decoration: none;
+}
+.padmin__dropdown a:hover { background: var(--c-cream); color: var(--c-turf); }
+.padmin__item--on { background: var(--c-cream); color: var(--c-turf); }
+
+.padmin__right { margin-left: auto; display: flex; align-items: center; gap: var(--s-3); }
+.padmin__site, .padmin__logout {
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    background: transparent; color: var(--c-gold-soft);
+    border: 1px solid var(--c-gold-soft); padding: var(--s-2) var(--s-3);
+    cursor: pointer;
+}
+.padmin__site:hover, .padmin__logout:hover { background: var(--c-turf-deep); }
+.padmin__site-label { font-family: var(--f-mono); font-size: var(--fs-micro); }
+
+/* ---- Body wrapper ------------------------------------------------------- */
+.padmin__body {
+    max-width: 1200px; margin-inline: auto;
+    padding: var(--s-7) var(--gutter) var(--s-9);
+}
+
+/* ---- Page header -------------------------------------------------------- */
+.pp__head { margin-bottom: var(--s-6); }
+.pp__title { font-size: var(--fs-h1); line-height: var(--lh-tight, 1.1); }
+.pp__lede { max-width: 60ch; margin-top: var(--s-3); color: var(--c-ink-dim); font-size: var(--fs-body-lg); }
+
+/* ---- Panels (the card sections) ---------------------------------------- */
+.pp__panel {
+    padding: var(--s-6);
+    border: 1px solid var(--c-line-strong);
+    background: var(--c-cream-raised);
+    border-radius: var(--br-sm, 4px);
+}
+.pp__panel + .pp__panel { margin-top: var(--s-6); }
+.pp__panel-title {
+    font-size: var(--fs-h3);
+    display: flex; align-items: baseline; gap: var(--s-3);
+    margin-bottom: var(--s-4);
+}
+.pp__panel-sub { font-family: var(--f-mono); font-size: var(--fs-micro); color: var(--c-ink-faint); }
+
+/* ---- Tag manager -------------------------------------------------------- */
+.pp__taglist {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--s-5); margin-bottom: var(--s-5);
+}
+.pp__taggroup { display: flex; flex-direction: column; gap: var(--s-3); }
+.pp__taggroup-label {
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--c-ink-faint);
+}
+.pp__chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+.pp__chip {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    padding: var(--s-1) var(--s-3);
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    border: 1px solid var(--c-line-strong); background: var(--c-cream);
+}
+.pp__chip--category { border-color: var(--c-green); color: var(--c-turf); }
+.pp__chip--album {
+    border-color: var(--c-gold); color: var(--c-turf-deep);
+    background: color-mix(in srgb, var(--c-gold) 12%, transparent);
+}
+.pp__chip-btn {
+    border: none; background: transparent; cursor: pointer;
+    color: var(--c-ink-faint); font-size: var(--fs-small); line-height: 1; padding: 0 2px;
+}
+.pp__chip-btn:hover { color: var(--c-turf); }
+
+/* ---- Form rows ---------------------------------------------------------- */
+.pp__form-row {
+    display: flex; gap: var(--s-4); margin-top: var(--s-4);
+    align-items: flex-end; flex-wrap: wrap;
+}
+.pp__form-row:first-of-type { margin-top: 0; }
+.pp__form-row .field { margin: 0; }
+.pp__form-row .field--grow { flex: 1; min-width: 220px; }
+
+/* ---- Filter pills ------------------------------------------------------- */
+.pp__filters { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: var(--s-6) 0 var(--s-2); }
+.pp__filter {
+    padding: var(--s-2) var(--s-4);
+    border: 1px solid var(--c-line-strong);
+    background: transparent; color: var(--c-turf);
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    letter-spacing: 0.06em; cursor: pointer;
+    transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
+}
+.pp__filter:hover { border-color: var(--c-turf); color: var(--c-gold); }
+.pp__filter--on { border-color: var(--c-turf); background: var(--c-turf); color: var(--c-gold-soft); }
+.pp__filter--album { border-style: dashed; }
+
+/* ---- Image grid (capped tiles) ----------------------------------------- */
+.pp__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--s-4); margin-top: var(--s-5);
+}
+.pp__tile {
+    display: flex; flex-direction: column; gap: var(--s-2);
+    border: 1px solid var(--c-line); background: var(--c-cream-raised);
+    padding: var(--s-3);
+}
+.pp__thumb {
+    width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+    background: var(--c-cream-sunken); border: 1px solid var(--c-line);
+}
+.pp__caption { font-size: var(--fs-small); color: var(--c-ink-dim); min-height: 1.2em; }
+.pp__tile-tags { display: flex; flex-wrap: wrap; gap: var(--s-1); }
+.pp__tile-tag {
+    font-family: var(--f-mono); font-size: 0.62rem; padding: 1px var(--s-2);
+    border: 1px solid var(--c-green); color: var(--c-turf);
+    background: color-mix(in srgb, var(--c-green) 12%, transparent);
+}
+.pp__tile-actions { display: flex; gap: var(--s-2); margin-top: auto; }
+.pp__tile-actions .btn { padding: var(--s-1) var(--s-3); font-size: var(--fs-micro); }
+.pp__edit-tags { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+
+/* ---- Upload queue ------------------------------------------------------- */
+.pp__queue { margin-top: var(--s-5); font-family: var(--f-mono); font-size: var(--fs-small); list-style: none; }
+.pp__queue li { display: flex; justify-content: space-between; padding: var(--s-2) 0; border-bottom: 1px solid var(--c-line); }
+.pp__queue .is-done { color: var(--c-green); }
+.pp__queue .is-error { color: var(--c-danger, #b00); }
+.pp__queue .is-pending { color: var(--c-ink-faint); }
+
+/* ---- Admin tables ------------------------------------------------------- */
+.pp__table { width: 100%; border-collapse: collapse; margin-top: var(--s-2); font-size: var(--fs-small); }
+.pp__table th, .pp__table td {
+    text-align: left; padding: var(--s-3); border-bottom: 1px solid var(--c-line); vertical-align: top;
+}
+.pp__table th {
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--c-ink-faint);
+}
+.pp__mono { font-family: var(--f-mono); font-size: var(--fs-micro); }
+.pp__row--off { opacity: 0.55; }
+.pp__row-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.pp__row-actions .btn { padding: var(--s-1) var(--s-3); font-size: var(--fs-micro); }
+
+/* ---- Login card --------------------------------------------------------- */
+.pp__login {
+    max-width: 26rem; margin: var(--s-10) auto; padding: var(--s-7);
+    border: 1px solid var(--c-line-strong); background: var(--c-cream-raised);
+}
+.pp__login .pp__title { font-size: var(--fs-h2); margin-bottom: var(--s-2); }
+.pp__login-form { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-5); }
+
+/* ---- Empty / loading text ---------------------------------------------- */
+.pp__empty { padding-block: var(--s-8); color: var(--c-ink-faint); font-family: var(--f-mono); }
+
+/* ---- Fields (portal-local, in case root doesn't define them) ----------- */
+.field { display: flex; flex-direction: column; gap: var(--s-2); }
+.field__label {
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-dim);
+}
+.field__input {
+    padding: var(--s-3); background: var(--c-cream); border: 1px solid var(--c-line-strong);
+    color: var(--c-ink); font-size: var(--fs-body); transition: border-color var(--t-fast);
+}
+.field__input:focus { outline: none; border-color: var(--c-turf); }
+.field__opt { color: var(--c-ink-faint); text-transform: none; letter-spacing: 0; }
+
+/* ---- Modal -------------------------------------------------------------- */
+.modal__backdrop {
+    position: fixed; inset: 0; z-index: 1000;
+    background: color-mix(in srgb, var(--c-ink, #1a1a1a) 45%, transparent);
+    display: flex; align-items: center; justify-content: center; padding: var(--s-4);
+}
+.modal {
+    width: 100%; max-width: 32rem;
+    background: var(--c-cream-raised); border: 1px solid var(--c-line-strong);
+    padding: var(--s-6); box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+.modal__title { font-size: var(--fs-h3); margin-bottom: var(--s-4); }
+
+/* ---- Toasts ------------------------------------------------------------- */
+.toasts {
+    position: fixed; bottom: var(--s-5); right: var(--s-5); z-index: 1100;
+    display: flex; flex-direction: column; gap: var(--s-2);
+}
+.toast {
+    padding: var(--s-3) var(--s-4); font-family: var(--f-mono); font-size: var(--fs-small);
+    cursor: pointer; border: 1px solid var(--c-line-strong); box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.toast--ok { background: var(--c-turf); color: var(--c-gold-soft); }
+.toast--error { background: var(--c-danger, #b00); color: #fff; }
+
+/* ---- Responsive --------------------------------------------------------- */
+@media (max-width: 760px) {
+    .padmin__inner { flex-wrap: wrap; gap: var(--s-3); }
+    .padmin__body { padding-block: var(--s-5) var(--s-7); }
+    .pp__form-row { flex-direction: column; align-items: stretch; }
+    .pp__table th:nth-child(3), .pp__table td:nth-child(3) { display: none; } /* hide Sites col on narrow */
+}
+
+/* ---- Account page ------------------------------------------------------- */
+.pp__deflist { display: grid; grid-template-columns: max-content 1fr; gap: var(--s-2) var(--s-5); }
+.pp__deflist > div { display: contents; }
+.pp__deflist dt {
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    letter-spacing: var(--ls-wide); text-transform: uppercase; color: var(--c-ink-faint);
+    align-self: baseline;
+}
+.pp__deflist dd { color: var(--c-ink); }
+.pp__account-form { display: flex; flex-direction: column; gap: var(--s-4); max-width: 26rem; }
+
+/* Account link in the top bar reuses the pill look but as an anchor */
+a.padmin__site { text-decoration: none; display: inline-flex; align-items: center; }
+
+/* Account dropdown in the top-right */
+.padmin__menubtn--account {
+    border: 1px solid var(--c-gold-soft);
+    max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.padmin__dropdown--right { left: auto; right: 0; }
+.padmin__dropdown-btn {
+    text-align: left; background: transparent; border: none; cursor: pointer;
+    padding: var(--s-2) var(--s-4); color: var(--c-ink-dim);
+    font-family: var(--f-mono); font-size: var(--fs-small); width: 100%;
+}
+.padmin__dropdown-btn:hover { background: var(--c-cream); color: var(--c-turf); }
+
+/* ---- Inbox -------------------------------------------------------------- */
+.pp__inbox { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-4); }
+.pp__lead {
+    border: 1px solid var(--c-line-strong); background: var(--c-cream-raised);
+    padding: var(--s-4); border-left-width: 3px;
+}
+.pp__lead--new { border-left-color: var(--c-gold); }
+.pp__lead--read { border-left-color: var(--c-line-strong); }
+.pp__lead--replied { border-left-color: var(--c-green); }
+.pp__lead--archived { border-left-color: var(--c-ink-faint); opacity: 0.7; }
+.pp__lead-head { display: flex; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; }
+.pp__lead-msg { margin: var(--s-3) 0; color: var(--c-ink); white-space: pre-wrap; }
+.pp__lead-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+.pp__lead-actions .btn { padding: var(--s-1) var(--s-3); font-size: var(--fs-micro); }
+.pp__lead-status {
+    font-family: var(--f-mono); font-size: var(--fs-micro);
+    letter-spacing: var(--ls-wide); color: var(--c-ink-faint); margin-right: var(--s-2);
+}

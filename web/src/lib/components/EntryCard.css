@@ -1,8 +1,12 @@
 /* EntryCard.css — portfolio/directory card with scroll-on-hover preview */
 .ecard {
-  display: grid; grid-template-rows: auto 1fr;
-  background: var(--c-cream-raised); border: 1px solid var(--c-line-strong);
-  overflow: hidden; transition: transform var(--t-med) var(--e-out), border-color var(--t-med) var(--e-out);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--c-cream-raised);
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--br-sm);
+  overflow: hidden;
+  transition: transform var(--t-med) var(--e-out), border-color var(--t-med) var(--e-out);
 }
 .ecard--hovered { transform: translateY(-4px); border-color: var(--c-turf); }
 

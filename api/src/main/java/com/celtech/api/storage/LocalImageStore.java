@@ -45,6 +45,23 @@ public class LocalImageStore implements ImageStore {
         }
         return key;
     }
+    /**
+     * Copies within the local root. Parallels the Spaces implementation so the
+     * "move" default (copy + delete) behaves identically under both profiles.
+     */
+    @Override
+    public String copy(String sourceKey, String destinationKey) {
+        Path source = resolveSafely(sourceKey);
+        Path target = resolveSafely(destinationKey);
+        try {
+            Files.createDirectories(target.getParent());
+            Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new UncheckedIOException(
+                    "Copy failed from " + sourceKey + " to " + destinationKey, e);
+        }
+        return destinationKey;
+    }
 
     @Override
     public String urlFor(String key) {

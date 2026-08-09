@@ -21,10 +21,14 @@ export class ApiError extends Error {
 
 async function request(path, options = {}) {
   let response;
+  const { isForm, ...rest } = options;
   try {
     response = await fetch(`${BASE}${path}`, {
-      headers: { 'Content-Type': 'application/json', ...options.headers },
-      ...options
+      headers: isForm
+          ? { ...options.headers }
+          : { 'Content-Type': 'application/json', ...options.headers },
+      credentials: 'include',
+      ...rest
     });
   } catch {
     throw new ApiError('Could not reach the server. Check your connection and try again.', 0, null);
@@ -63,5 +67,125 @@ export const api = {
 
   submitInquiry(payload) {
     return request('/api/contact', { method: 'POST', body: JSON.stringify(payload) });
+  }
+};
+
+export const portal = {
+  login(email, password) {
+    return request('/api/portal/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password })
+    });
+  },
+  logout() {
+    return request('/api/portal/auth/logout', { method: 'POST' });
+  },
+  me() {
+    return request('/api/portal/me');
+  },
+  changePassword(currentPassword, newPassword) {
+    return request('/api/portal/me/password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+  },
+
+  /** Public read — returns { tags: [...], images: [...] }. */
+  gallery(storageSlug) {
+    return request(`/api/sites/${encodeURIComponent(storageSlug)}/gallery`);
+  },
+
+  upload(siteId, file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    // isForm flag tells request() to skip the JSON content-type so the
+    // browser sets the multipart boundary itself.
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/gallery`, {
+      method: 'POST', body: fd, isForm: true
+    });
+  },
+  updateImage(imageId, patch) {
+    // patch may include { caption, altText, position, tagIds }
+    return request(`/api/portal/sites/gallery/${encodeURIComponent(imageId)}`, {
+      method: 'PUT', body: JSON.stringify(patch)
+    });
+  },
+  deleteImage(imageId) {
+    return request(`/api/portal/sites/gallery/${encodeURIComponent(imageId)}`, {
+      method: 'DELETE'
+    });
+  },
+
+  // ---- Tags (client-managed vocabulary) ----
+  tags(siteId) {
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/tags`);
+  },
+  createTag(siteId, tag) {
+    // tag: { label, slug?, kind?, coverImageId?, position? }
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/tags`, {
+      method: 'POST', body: JSON.stringify(tag)
+    });
+  },
+  updateTag(tagId, patch) {
+    return request(`/api/portal/sites/tags/${encodeURIComponent(tagId)}`, {
+      method: 'PUT', body: JSON.stringify(patch)
+    });
+  },
+  deleteTag(tagId) {
+    return request(`/api/portal/sites/tags/${encodeURIComponent(tagId)}`, {
+      method: 'DELETE'
+    });
+  },
+
+  // ---- Inquiries (client leads) ----
+  inquiries(siteId) {
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/inquiries`);
+  },
+  updateInquiryStatus(inquiryId, status) {
+    return request(`/api/portal/sites/inquiries/${encodeURIComponent(inquiryId)}/status`, {
+      method: 'PUT', body: JSON.stringify({ status })
+    });
+  },
+  deleteInquiry(inquiryId) {
+    return request(`/api/portal/sites/inquiries/${encodeURIComponent(inquiryId)}`, {
+      method: 'DELETE'
+    });
+  },
+
+  // ---- Admin (ADMIN role only; server-gated) ----
+  admin: {
+    sites() {
+      return request('/api/portal/admin/sites');
+    },
+    createSite(name, storageSlug, notifyEmail) {
+      return request('/api/portal/admin/sites', {
+        method: 'POST',
+        body: JSON.stringify({ name, storageSlug, notifyEmail })
+      });
+    },
+    updateSite(siteId, patch) {
+      return request(`/api/portal/admin/sites/${encodeURIComponent(siteId)}`, {
+        method: 'PUT', body: JSON.stringify(patch)
+      });
+    },
+    users() {
+      return request('/api/portal/admin/users');
+    },
+    createUser(user) {
+      // user: { email, displayName, password, role, siteIds }
+      return request('/api/portal/admin/users', {
+        method: 'POST', body: JSON.stringify(user)
+      });
+    },
+    updateUser(userId, patch) {
+      return request(`/api/portal/admin/users/${encodeURIComponent(userId)}`, {
+        method: 'PUT', body: JSON.stringify(patch)
+      });
+    },
+    resetUserPassword(userId, newPassword) {
+      return request(`/api/portal/admin/users/${encodeURIComponent(userId)}/password`, {
+        method: 'POST', body: JSON.stringify({ newPassword })
+      });
+    }
   }
 };

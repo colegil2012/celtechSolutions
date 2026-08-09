@@ -16,4 +16,12 @@ public interface ImageStore {
 
     /** Remove an object. No-op if the key is absent. */
     void delete(String key);
+
+    String copy(String sourceKey, String destinationKey);
+
+    default String move(String sourceKey, String destinationKey) {
+        copy(sourceKey, destinationKey);
+        delete(sourceKey);
+        return destinationKey;
+    };
 }

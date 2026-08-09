@@ -64,6 +64,15 @@
   --ls-tight: -0.02em;
   --ls-wide:  0.14em;   /* mono labels, eyebrows */
 
+  /* --- Borders/border radius ------------------------------------------------ */
+  --br-xs: 0.25rem; --br-sm: 0.5rem;  --br-md: 1rem; --br-lg: 1.5rem; --br-xl: 2rem;
+
+  --border-1: 2px solid var(--c-turf);
+  --border-2: 1px solid var(--c-line-strong);
+  --border-3: 1px solid var(--c-line);
+
+  --border-5: 3px solid var(--c-green);
+
   /* --- Space --------------------------------------------------------------- */
   --s-1: 0.25rem; --s-2: 0.5rem;  --s-3: 0.75rem; --s-4: 1rem;
   --s-5: 1.5rem;  --s-6: 2rem;    --s-7: 3rem;    --s-8: 4.5rem;
