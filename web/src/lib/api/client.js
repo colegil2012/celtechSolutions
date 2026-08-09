@@ -90,9 +90,12 @@ export const portal = {
     });
   },
 
-  /** Public read — returns { tags: [...], images: [...] }. */
-  gallery(storageSlug) {
-    return request(`/api/sites/${encodeURIComponent(storageSlug)}/gallery`);
+  /** Public read — returns { tags: [...], images: [...] }.
+   *  `fresh` appends a cache-buster so the PORTAL always sees live data
+   *  (the 30-min Cache-Control is meant for public client sites, not authoring). */
+  gallery(storageSlug, fresh = false) {
+    const bust = fresh ? `?t=${Date.now()}` : '';
+    return request(`/api/sites/${encodeURIComponent(storageSlug)}/gallery${bust}`);
   },
 
   upload(siteId, file) {

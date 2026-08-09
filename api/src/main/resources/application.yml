@@ -30,7 +30,7 @@ spring.servlet.multipart:
 
 app:
   cors:
-    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,https://ddarty.com,https://www.ddarty.com,https://ells4u.com,https://www.ells4u.com}
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:5174,http://localhost:5175,https://ddarty.com,https://www.ddarty.com,https://ells4u.com,https://www.ells4u.com}
   clients:
     # Client portal db connection, multi-tenant model
     # Each Client gets its own collection
@@ -57,7 +57,7 @@ app:
       cdn-base: ${SPACES_CDN_BASE:}
   public-read:
     # Cache Control for public-read assets / default 1 hour for updates to show live #
-    cache-seconds: ${PUBLIC_READ_CACHE_SECONDS:3600}
+    cache-seconds: ${PUBLIC_READ_CACHE_SECONDS:1800}
 
 management:
   endpoints:

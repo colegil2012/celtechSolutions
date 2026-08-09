@@ -63,7 +63,15 @@ public class GalleryService {
         img.setUploadedBy(actor.userId());
         img.setPosition(gallery.findBySiteIdOrderByPositionAsc(siteId).size());
 
-        return toDto(gallery.save(img));
+        try {
+            return toDto(gallery.save(img));
+        } catch (Exception e) {
+            // DB insert failed after Spaces write — clean up the orphaned objects
+            // so we don't leave files with no metadata record.
+            try { imageStore.delete(stored.imageKey()); } catch (Exception ignore) {}
+            try { imageStore.delete(stored.thumbKey()); } catch (Exception ignore) {}
+            throw e; // rethrow so the real error surfaces (and is logged)
+        }
     }
 
     public GalleryImageDto update(AuthPrincipal actor, String imageId, GalleryImageUpdate patch) {

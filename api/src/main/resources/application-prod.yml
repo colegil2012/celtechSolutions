@@ -7,7 +7,7 @@ spring:
 app:
   cors:
     # Empty fallback intentional — same-origin deploy, no cross-origin requests.
-    allowed-origins: ${CORS_ORIGINS:}
+    allowed-origins: ${CORS_ORIGINS:https://ddarty.com,https://www.ddarty.com,https://ells4u.com,https://www.ells4u.com,http://localhost:5173}
   auth:
     cookie-secure: true
   mail:

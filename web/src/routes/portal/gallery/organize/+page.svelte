@@ -20,7 +20,7 @@
 
   async function refresh() {
     if (!site) return;
-    const data = await portal.gallery(site.storageSlug);
+    const data = await portal.gallery(site.storageSlug, true); // bypass cache in the portal
     tags = data?.tags ?? [];
     images = data?.images ?? [];
   }
