@@ -14,6 +14,7 @@
   let galleryOpen = $state(false);
   let clientsOpen = $state(false);
   let accountOpen = $state(false);
+  let siteOpen = $state(false);
 
   // Login page is the only portal route that must NOT require auth.
   let isLogin = $derived($page.url.pathname === '/portal/login');
@@ -65,6 +66,20 @@
                  class:padmin__item--on={$page.url.pathname === '/portal/gallery/upload'}>Upload</a>
               <a href="/portal/gallery/organize"
                  class:padmin__item--on={$page.url.pathname === '/portal/gallery/organize'}>Organize</a>
+            </div>
+          {/if}
+        </div>
+
+        <div class="padmin__menu" role="menu"
+             onmouseenter={() => (siteOpen = true)}
+             onmouseleave={() => (siteOpen = false)}>
+           <button class="padmin__menubtn" aria-expanded={siteOpen}
+                   onclick={() => (siteOpen = !siteOpen)}>Site ▾</button>
+           {#if siteOpen}
+            <div class="padmin__dropdown">
+              <a href="/portal/site/about"
+                 class:padmin__item--on={$page.url.pathname === '/portal/site/about'}>About page</a>
+           <!-- future: Contact info, Status banner, etc. -->
             </div>
           {/if}
         </div>

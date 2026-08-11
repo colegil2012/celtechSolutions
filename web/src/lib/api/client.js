@@ -140,6 +140,24 @@ export const portal = {
     });
   },
 
+  // ---- Site meta (about-page content) ----
+  meta(siteId, fresh = false) {
+    const bust = fresh ? `?t=${Date.now()}` : '';
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/meta${bust}`);
+  },
+  updateMeta(siteId, patch) {
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/meta`, {
+      method: 'PUT', body: JSON.stringify(patch)
+    });
+  },
+  uploadMetaImage(siteId, file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    return request(`/api/portal/sites/${encodeURIComponent(siteId)}/meta/image`, {
+      method: 'POST', body: fd, isForm: true
+    });
+  },
+
   // ---- Inquiries (client leads) ----
   inquiries(siteId) {
     return request(`/api/portal/sites/${encodeURIComponent(siteId)}/inquiries`);
