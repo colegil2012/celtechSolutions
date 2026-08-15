@@ -1,6 +1,6 @@
 package com.celtech.api.clients.auth;
 
-import com.celtech.api.clients.model.ClientUser;
+import com.celtech.api.clients.model.user.ClientUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

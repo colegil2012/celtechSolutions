@@ -49,7 +49,21 @@
   }
 
   function openEdit(site) {
-    editModal = { site, name: site.name, notifyEmail: site.notifyEmail ?? '' };
+    // Fall back to defaults so blank/legacy sites open with editable values;
+    // saving writes this config into the same site document.
+    const cfg = site.config ?? {};
+    editModal = {
+      site,
+      name: site.name,
+      notifyEmail: site.notifyEmail ?? '',
+      config: {
+        bioSectionCount: cfg.bioSectionCount ?? 3,
+        serviceHeadersEnabled: cfg.serviceHeadersEnabled ?? false,
+        serviceHeaderCount: cfg.serviceHeaderCount ?? 0,
+        aboutImageEnabled: cfg.aboutImageEnabled ?? true,
+        albumsEnabled: cfg.albumsEnabled ?? false
+      }
+    };
   }
   async function saveEdit() {
     const patch = {};
@@ -57,10 +71,11 @@
       patch.name = editModal.name.trim();
     }
     const nextEmail = editModal.notifyEmail.trim();
-    // Only send when set to a new non-empty value (backend treats null as "no change").
     if (nextEmail && nextEmail !== (editModal.site.notifyEmail ?? '')) {
       patch.notifyEmail = nextEmail;
     }
+    // Always send config on save — cheap, and guarantees a blank site gets one.
+    patch.config = editModal.config;
     if (Object.keys(patch).length === 0) { editModal = null; return; }
     try {
       await portal.admin.updateSite(editModal.site.id, patch);
@@ -141,6 +156,42 @@
       <input class="field__input" type="email" bind:value={editModal.notifyEmail}
              placeholder="owner@example.com" />
     </label>
+
+        <h3 class="pp__panel-title" style="margin-top:var(--s-5);">Portal config</h3>
+        <p class="pp__panel-sub" style="margin-bottom:var(--s-3);">
+          Match these to the fields this site's live app renders. Changing them only
+          affects which fields appear in this client's portal editor.
+        </p>
+
+        <label class="field">
+          <span class="field__label">Bio sections</span>
+          <input class="field__input" type="number" min="0" max="10"
+                 bind:value={editModal.config.bioSectionCount} />
+        </label>
+
+        <label class="field" style="margin-top:var(--s-4); flex-direction:row; gap:var(--s-3); align-items:center;">
+          <input type="checkbox" bind:checked={editModal.config.serviceHeadersEnabled} />
+          <span class="field__label">Service headers enabled</span>
+        </label>
+
+        {#if editModal.config.serviceHeadersEnabled}
+          <label class="field" style="margin-top:var(--s-4);">
+            <span class="field__label">Service header count</span>
+            <input class="field__input" type="number" min="0" max="12"
+                   bind:value={editModal.config.serviceHeaderCount} />
+          </label>
+        {/if}
+
+        <label class="field" style="margin-top:var(--s-4); flex-direction:row; gap:var(--s-3); align-items:center;">
+          <input type="checkbox" bind:checked={editModal.config.aboutImageEnabled} />
+          <span class="field__label">About image enabled</span>
+        </label>
+
+        <label class="field" style="margin-top:var(--s-4); flex-direction:row; gap:var(--s-3); align-items:center;">
+          <input type="checkbox" bind:checked={editModal.config.albumsEnabled} />
+          <span class="field__label">Gallery albums enabled</span>
+        </label>
+
     <div style="display:flex; gap:var(--s-3); justify-content:flex-end; margin-top:var(--s-5);">
       <button class="btn" onclick={() => (editModal = null)}>Cancel</button>
       <button class="btn btn--solid" onclick={saveEdit}>Save</button>

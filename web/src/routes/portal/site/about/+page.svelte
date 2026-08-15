@@ -5,22 +5,28 @@
 
   const ctx = getContext('portal');
   let site = $derived(ctx.activeSite);
+  let cfg = $derived(site?.config ?? {});
+
+  let bioCount = $derived(cfg.bioSectionCount ?? 3);
+  let serviceHeadersEnabled = $derived(cfg.serviceHeadersEnabled ?? false);
+  let maxServiceHeaders = $derived(cfg.serviceHeaderCount ?? 0);
+  let aboutImageEnabled = $derived(cfg.aboutImageEnabled ?? true);
 
   let meta = $state(null);
   let ready = $state(false);
   let busy = $state(false);
   let uploading = $state(false);
 
-  const MAX_SERVICE_HEADERS = 4;
-
-  // Ensure the nested objects/list exist so bind:value has something to write to.
+  // Pad/trim the bio list to the configured count so every rendered field has
+  // a bind target; hide the rest entirely.
   function normalize(m) {
+    const n = cfg.bioSectionCount ?? 3;
+    const bios = m.bioSections ?? [];
     return {
       ...m,
       aboutHeader: m.aboutHeader ?? '',
-      topSection: m.topSection ?? { header: '', section: '' },
-      midSection: m.midSection ?? { header: '', section: '' },
-      bottomSection: m.bottomSection ?? { header: '', section: '' },
+      bioSections: Array.from({ length: n }, (_, i) =>
+        bios[i] ?? { header: '', section: '' }),
       serviceHeader: m.serviceHeader ?? []
     };
   }
@@ -33,7 +39,7 @@
   $effect(() => { if (site?.id) refresh(); });
 
   function addServiceHeader() {
-    if (meta.serviceHeader.length >= MAX_SERVICE_HEADERS) return;
+    if (meta.serviceHeader.length >= maxServiceHeaders) return;
     meta.serviceHeader = [...meta.serviceHeader, { header: '', section: '' }];
   }
   function removeServiceHeader(i) {
@@ -46,13 +52,16 @@
     try {
       meta = normalize(await portal.updateMeta(site.id, {
         aboutHeader: meta.aboutHeader,
-        topSection: meta.topSection,
-        midSection: meta.midSection,
-        bottomSection: meta.bottomSection,
-        // Drop fully-empty rows before saving.
-        serviceHeader: meta.serviceHeader.filter((s) => s.header?.trim() || s.section?.trim()),
-        aboutImageCaption: meta.aboutImageCaption ?? '',
-        aboutImageAltText: meta.aboutImageAltText ?? ''
+        // Send exactly the configured number of bios (keep order/blanks so
+        // section 2 staying empty doesn't shift section 3 up).
+        bioSections: meta.bioSections.slice(0, bioCount),
+        serviceHeader: serviceHeadersEnabled
+          ? meta.serviceHeader
+              .slice(0, maxServiceHeaders)
+              .filter((s) => s.header?.trim() || s.section?.trim())
+          : [],
+        aboutImageCaption: aboutImageEnabled ? (meta.aboutImageCaption ?? '') : '',
+        aboutImageAltText: aboutImageEnabled ? (meta.aboutImageAltText ?? '') : ''
       }));
       toast('About page saved.');
     } catch (e) {
@@ -86,6 +95,7 @@
 </header>
 
 {#if ready && meta}
+  <!-- About header always renders -->
   <section class="pp__panel">
     <h2 class="pp__panel-title">Page header</h2>
     <label class="field">
@@ -94,68 +104,75 @@
     </label>
   </section>
 
-  {#each [['Top', 'topSection'], ['Middle', 'midSection'], ['Bottom', 'bottomSection']] as [label, key]}
+  <!-- As many bio sections as the config defines -->
+  {#each meta.bioSections as bio, i (i)}
     <section class="pp__panel">
-      <h2 class="pp__panel-title">{label} section</h2>
+      <h2 class="pp__panel-title">Section {i + 1}</h2>
       <label class="field">
         <span class="field__label">Header</span>
-        <input class="field__input" bind:value={meta[key].header} />
+        <input class="field__input" bind:value={bio.header} />
       </label>
       <label class="field" style="margin-top:var(--s-4);">
         <span class="field__label">Body</span>
-        <textarea class="field__input" rows="4" bind:value={meta[key].section}></textarea>
+        <textarea class="field__input" rows="4" bind:value={bio.section}></textarea>
       </label>
     </section>
   {/each}
 
-  <section class="pp__panel">
-    <h2 class="pp__panel-title">
-      Service headers <span class="pp__panel-sub">{meta.serviceHeader.length}/{MAX_SERVICE_HEADERS}</span>
-    </h2>
-    <p class="pp__panel-sub" style="margin-bottom:var(--s-3);">
-      Small label / value pairs, e.g. “Founded” → “2025”, “Our Crew” → “Mom, Dad & Daughter”.
-    </p>
-    {#each meta.serviceHeader as sh, i (i)}
-      <div class="pp__form-row" style="align-items:flex-end;">
-        <label class="field">
-          <span class="field__label">Label</span>
-          <input class="field__input" bind:value={sh.header} placeholder="Founded" />
-        </label>
-        <label class="field field--grow">
-          <span class="field__label">Value</span>
-          <input class="field__input" bind:value={sh.section} placeholder="2025" />
-        </label>
-        <button class="btn" onclick={() => removeServiceHeader(i)}>Remove</button>
-      </div>
-    {/each}
-    {#if meta.serviceHeader.length < MAX_SERVICE_HEADERS}
-      <div class="pp__form-row">
-        <button class="btn" onclick={addServiceHeader}>Add header</button>
-      </div>
-    {/if}
-  </section>
+  <!-- Service headers only when enabled, capped at the configured count -->
+  {#if serviceHeadersEnabled}
+    <section class="pp__panel">
+      <h2 class="pp__panel-title">
+        Service headers <span class="pp__panel-sub">{meta.serviceHeader.length}/{maxServiceHeaders}</span>
+      </h2>
+      <p class="pp__panel-sub" style="margin-bottom:var(--s-3);">
+        Small label / value pairs, e.g. “Founded” → “2025”, “Our Crew” → “Mom, Dad &amp; Daughter”.
+      </p>
+      {#each meta.serviceHeader as sh, i (i)}
+        <div class="pp__form-row" style="align-items:flex-end;">
+          <label class="field">
+            <span class="field__label">Label</span>
+            <input class="field__input" bind:value={sh.header} placeholder="Founded" />
+          </label>
+          <label class="field field--grow">
+            <span class="field__label">Value</span>
+            <input class="field__input" bind:value={sh.section} placeholder="2025" />
+          </label>
+          <button class="btn" onclick={() => removeServiceHeader(i)}>Remove</button>
+        </div>
+      {/each}
+      {#if meta.serviceHeader.length < maxServiceHeaders}
+        <div class="pp__form-row">
+          <button class="btn" onclick={addServiceHeader}>Add header</button>
+        </div>
+      {/if}
+    </section>
+  {/if}
 
-  <section class="pp__panel">
-    <h2 class="pp__panel-title">About image</h2>
-    {#if meta.aboutImageUrl}
-      <img class="pp__thumb" style="max-width:280px;" src={meta.aboutImageUrl}
-           alt={meta.aboutImageAltText ?? ''} />
-    {/if}
-    <div class="pp__form-row">
-      <label class="btn btn--solid" style="display:inline-block;">
-        {uploading ? 'Uploading…' : (meta.aboutImageUrl ? 'Replace image' : 'Upload image')}
-        <input type="file" accept="image/*" hidden onchange={onImage} disabled={uploading} />
+  <!-- About image only when enabled -->
+  {#if aboutImageEnabled}
+    <section class="pp__panel">
+      <h2 class="pp__panel-title">About image</h2>
+      {#if meta.aboutImageUrl}
+        <img class="pp__thumb" style="max-width:280px;" src={meta.aboutImageUrl}
+             alt={meta.aboutImageAltText ?? ''} />
+      {/if}
+      <div class="pp__form-row">
+        <label class="btn btn--solid" style="display:inline-block;">
+          {uploading ? 'Uploading…' : (meta.aboutImageUrl ? 'Replace image' : 'Upload image')}
+          <input type="file" accept="image/*" hidden onchange={onImage} disabled={uploading} />
+        </label>
+      </div>
+      <label class="field" style="margin-top:var(--s-4);">
+        <span class="field__label">Caption</span>
+        <input class="field__input" bind:value={meta.aboutImageCaption} />
       </label>
-    </div>
-    <label class="field" style="margin-top:var(--s-4);">
-      <span class="field__label">Caption</span>
-      <input class="field__input" bind:value={meta.aboutImageCaption} />
-    </label>
-    <label class="field" style="margin-top:var(--s-4);">
-      <span class="field__label">Alt text</span>
-      <input class="field__input" bind:value={meta.aboutImageAltText} />
-    </label>
-  </section>
+      <label class="field" style="margin-top:var(--s-4);">
+        <span class="field__label">Alt text</span>
+        <input class="field__input" bind:value={meta.aboutImageAltText} />
+      </label>
+    </section>
+  {/if}
 
   <div class="pp__form-row">
     <button class="btn btn--solid" onclick={save} disabled={busy}>

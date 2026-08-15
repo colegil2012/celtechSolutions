@@ -4,6 +4,7 @@
 
   const ctx = getContext('portal');
   let site = $derived(ctx.activeSite);
+  let albumsEnabled = $derived(site?.config?.albumsEnabled ?? false);
 
   let images = $state([]);
   let tags = $state([]);
@@ -31,6 +32,9 @@
   let tagById = $derived(Object.fromEntries(tags.map((t) => [t.id, t])));
   let categoryTags = $derived(tags.filter((t) => t.kind !== 'album'));
   let albumTags = $derived(tags.filter((t) => t.kind === 'album'));
+
+  // When albums are off, only categories are selectable/visible anywhere.
+  let editableTags = $derived(albumsEnabled ? tags : categoryTags);
 
   let visible = $derived(
     filterTagId === 'all'
@@ -64,7 +68,9 @@
     if (!newTagLabel.trim() || !site?.id) return;
     tagBusy = true;
     try {
-      await portal.createTag(site.id, { label: newTagLabel.trim(), kind: newTagKind });
+      // Force category when albums are disabled so no album tag can be created.
+      const kind = albumsEnabled ? newTagKind : 'category';
+      await portal.createTag(site.id, { label: newTagLabel.trim(), kind });
       newTagLabel = '';
       await refresh();
     } catch (e) {
@@ -114,37 +120,42 @@
         </div>
       </div>
 
-      <div class="pp__taggroup">
-        <span class="pp__taggroup-label">Albums</span>
-        <div class="pp__chips">
-          {#each albumTags as t (t.id)}
-            <span class="pp__chip pp__chip--album">
-              {t.label}
-              <button class="pp__chip-btn" onclick={() => renameTag(t)} title="Rename">✎</button>
-              <button class="pp__chip-btn" onclick={() => deleteTag(t)} title="Delete">✕</button>
-            </span>
-          {/each}
-          {#if albumTags.length === 0}<span class="pp__panel-sub">None yet</span>{/if}
-        </div>
-      </div>
-    </div>
 
-    <div class="pp__form-row">
-      <label class="field field--grow">
-        <span class="field__label">New tag</span>
-        <input class="field__input" placeholder="e.g. Hardscaping or Miller Backyard"
-               bind:value={newTagLabel} onkeydown={(e) => e.key === 'Enter' && addTag()} />
-      </label>
-      <label class="field">
-        <span class="field__label">Kind</span>
-        <select class="field__input" bind:value={newTagKind}>
-          <option value="category">Category</option>
-          <option value="album">Album</option>
-        </select>
-      </label>
-      <button class="btn btn--solid" onclick={addTag} disabled={tagBusy}>Add tag</button>
-    </div>
-  </section>
+     {#if albumsEnabled}
+       <div class="pp__taggroup">
+           <span class="pp__taggroup-label">Albums</span>
+           <div class="pp__chips">
+               {#each albumTags as t (t.id)}
+                  <span class="pp__chip pp__chip--album">
+                  {t.label}
+                  <button class="pp__chip-btn" onclick={() => renameTag(t)} title="Rename">✎</button>
+                  <button class="pp__chip-btn" onclick={() => deleteTag(t)} title="Delete">✕</button>
+                </span>
+              {/each}
+              {#if albumTags.length === 0}<span class="pp__panel-sub">None yet</span>{/if}
+            </div>
+          </div>
+        {/if}
+      </div>
+
+        <div class="pp__form-row">
+          <label class="field field--grow">
+            <span class="field__label">New tag</span>
+            <input class="field__input" placeholder="e.g. Tiling, Impressionism, Comedy, etc."
+                   bind:value={newTagLabel} onkeydown={(e) => e.key === 'Enter' && addTag()} />
+          </label>
+          {#if albumsEnabled}
+            <label class="field">
+              <span class="field__label">Kind</span>
+              <select class="field__input" bind:value={newTagKind}>
+                <option value="category">Category</option>
+                <option value="album">Album</option>
+              </select>
+            </label>
+          {/if}
+          <button class="btn btn--solid" onclick={addTag} disabled={tagBusy}>Add tag</button>
+        </div>
+      </section>
 
   <!-- Filters -->
   <div class="pp__filters">
@@ -156,10 +167,12 @@
       <button class="pp__filter" class:pp__filter--on={filterTagId === t.id}
               onclick={() => (filterTagId = t.id)}>{t.label}</button>
     {/each}
-    {#each albumTags as t (t.id)}
-      <button class="pp__filter pp__filter--album" class:pp__filter--on={filterTagId === t.id}
-              onclick={() => (filterTagId = t.id)}>{t.label}</button>
-    {/each}
+    {#if albumsEnabled}
+      {#each albumTags as t (t.id)}
+        <button class="pp__filter pp__filter--album" class:pp__filter--on={filterTagId === t.id}
+                onclick={() => (filterTagId = t.id)}>{t.label}</button>
+      {/each}
+    {/if}
   </div>
 
   <!-- Image grid -->
@@ -172,7 +185,7 @@
           <input class="field__input" placeholder="Caption" bind:value={draft.caption} />
           <input class="field__input" placeholder="Alt text" bind:value={draft.altText} />
           <div class="pp__edit-tags">
-            {#each tags as t (t.id)}
+            {#each editableTags as t (t.id)}
               <button type="button"
                       class="pp__filter {t.kind === 'album' ? 'pp__filter--album' : ''}"
                       class:pp__filter--on={draft.tagIds.includes(t.id)}

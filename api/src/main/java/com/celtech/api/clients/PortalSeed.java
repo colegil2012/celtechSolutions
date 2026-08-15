@@ -1,9 +1,9 @@
 package com.celtech.api.clients;
 
-import com.celtech.api.clients.model.ClientUser;
-import com.celtech.api.clients.model.Site;
-import com.celtech.api.clients.repository.ClientUserRepository;
-import com.celtech.api.clients.repository.SiteRepository;
+import com.celtech.api.clients.model.user.ClientUser;
+import com.celtech.api.clients.model.admin.Site;
+import com.celtech.api.clients.repository.user.ClientUserRepository;
+import com.celtech.api.clients.repository.admin.SiteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
