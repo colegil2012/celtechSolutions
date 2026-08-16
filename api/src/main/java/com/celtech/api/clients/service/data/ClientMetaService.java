@@ -56,7 +56,7 @@ public class ClientMetaService {
         ClientMeta meta = metas.findBySiteId(siteId).orElseGet(() -> emptyFor(siteId));
 
         if (patch.aboutHeader() != null)       meta.setAboutHeader(patch.aboutHeader());
-        if (patch.sections() != null)          meta.setBioSections(patch.sections());
+        if (patch.bioSections() != null)          meta.setBioSections(patch.bioSections());
         if (patch.serviceHeader() != null)     meta.setServiceHeader(patch.serviceHeader());
         if (patch.aboutImageCaption() != null) meta.setAboutImageCaption(patch.aboutImageCaption());
         if (patch.aboutImageAltText() != null) meta.setAboutImageAltText(patch.aboutImageAltText());

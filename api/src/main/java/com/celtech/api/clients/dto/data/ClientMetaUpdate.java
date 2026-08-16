@@ -9,7 +9,7 @@ import java.util.List;
  *  for a small, client-managed set capped at ~4). */
 public record ClientMetaUpdate(
         String aboutHeader,
-        List<Section> sections,
+        List<Section> bioSections,
         List<Section> serviceHeader,
         String aboutImageKey,
         String aboutImageCaption,
